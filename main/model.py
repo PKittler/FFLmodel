@@ -75,3 +75,31 @@ def Model (t, init_vars, k_xy, k_xz, k_yz, a_y, b_y, beta_y, a_z, b_z, beta_z, h
 
     return [dxdt, dydt, dzdt]
 
+# preparation for plotting
+x_active_values = []
+y_values = []
+z_values = []
+s_x_values = []
+t_values = np.linspace(0, t_end, steps)
+
+time_switch = [5, 10, 15]
+
+# loop for calculation of results for each step
+for t_step in range(steps):
+    t = t_step * t_end / steps
+
+    s_x_values.append(s_x)              # write s_x in list
+
+    # check, if s_x should turn on/off
+    if t in time_switch:
+        s_x = 1 - s_x                   # can be 0/1
+
+    # only last steps is needed
+    model_solver = solve_ivp(Model, (t, t + t_end / steps), initial_values, args = (k_xy, k_xz, k_yz, a_y, b_y, beta_y, a_z, b_z, beta_z, h, s_x, True), t_eval = [t + t_end / steps])
+
+    # update initial value (conditions)
+    initial_values = [model_solver.y[0][-1], model_solver.y[1][-1], model_solver.y[2][-1]]
+
+    x_active_values.append(model_solver.y[0][0])    # save only first value from last step
+    y_values.append(model_solver.y[1][0])           # save only first value from last step
+    z_values.append(model_solver.y[2][0])           # save only first value from last step
