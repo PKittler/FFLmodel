@@ -1,0 +1,324 @@
+<application>
+  <component name="ProjectJdkTable">
+    <jdk version="2">
+      <name value="Python 3.8 (Sandbox)" />
+      <type value="Python SDK" />
+      <version value="Python 3.8.2" />
+      <homePath value="$USER_HOME$/PycharmProjects/Sandbox/venv/bin/python" />
+      <roots>
+        <classPath>
+          <root type="composite">
+            <root url="file:///Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8" type="simple" />
+            <root url="file:///Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/lib-dynload" type="simple" />
+            <root url="file://$USER_HOME$/PycharmProjects/Sandbox/venv/lib/python3.8/site-packages" type="simple" />
+            <root url="jar://$USER_HOME$/PycharmProjects/Sandbox/venv/lib/python3.8/site-packages/setuptools-40.8.0-py3.8.egg!/" type="simple" />
+            <root url="file://$USER_HOME$/PycharmProjects/Sandbox/venv/lib/python3.8/site-packages/pip-19.0.3-py3.8.egg" type="simple" />
+            <root url="file://$USER_HOME$/Library/Caches/PyCharm2019.3/python_stubs/-797784337" type="simple" />
+            <root url="file://$APPLICATION_HOME_DIR$/plugins/python/helpers/python-skeletons" type="simple" />
+            <root url="file://$APPLICATION_HOME_DIR$/plugins/python/helpers/typeshed/stdlib/3" type="simple" />
+            <root url="file://$APPLICATION_HOME_DIR$/plugins/python/helpers/typeshed/stdlib/2and3" type="simple" />
+            <root url="file://$APPLICATION_HOME_DIR$/plugins/python/helpers/typeshed/third_party/3" type="simple" />
+            <root url="file://$APPLICATION_HOME_DIR$/plugins/python/helpers/typeshed/third_party/2and3" type="simple" />
+          </root>
+        </classPath>
+        <sourcePath>
+          <root type="composite" />
+        </sourcePath>
+      </roots>
+      <additional ASSOCIATED_PROJECT_PATH="$USER_HOME$/PycharmProjects/Sandbox" />
+    </jdk>
+    <jdk version="2">
+      <name value="Python 3.8 (iBot)" />
+      <type value="Python SDK" />
+      <version value="Python 3.8.2" />
+      <homePath value="$USER_HOME$/PycharmProjects/iBot/venv/bin/python" />
+      <roots>
+        <classPath>
+          <root type="composite">
+            <root url="file:///Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8" type="simple" />
+            <root url="file:///Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/lib-dynload" type="simple" />
+            <root url="file://$USER_HOME$/PycharmProjects/iBot/venv/lib/python3.8/site-packages" type="simple" />
+            <root url="jar://$USER_HOME$/PycharmProjects/iBot/venv/lib/python3.8/site-packages/setuptools-40.8.0-py3.8.egg!/" type="simple" />
+            <root url="file://$USER_HOME$/PycharmProjects/iBot/venv/lib/python3.8/site-packages/pip-19.0.3-py3.8.egg" type="simple" />
+            <root url="file://$USER_HOME$/Library/Caches/PyCharm2019.3/python_stubs/1356038800" type="simple" />
+            <root url="file://$APPLICATION_HOME_DIR$/plugins/python/helpers/python-skeletons" type="simple" />
+            <root url="file://$APPLICATION_HOME_DIR$/plugins/python/helpers/typeshed/stdlib/3" type="simple" />
+            <root url="file://$APPLICATION_HOME_DIR$/plugins/python/helpers/typeshed/stdlib/2and3" type="simple" />
+            <root url="file://$APPLICATION_HOME_DIR$/plugins/python/helpers/typeshed/third_party/3" type="simple" />
+            <root url="file://$APPLICATION_HOME_DIR$/plugins/python/helpers/typeshed/third_party/2and3" type="simple" />
+          </root>
+        </classPath>
+        <sourcePath>
+          <root type="composite" />
+        </sourcePath>
+      </roots>
+      <additional ASSOCIATED_PROJECT_PATH="$USER_HOME$/PycharmProjects/iBot" />
+    </jdk>
+    <jdk version="2">
+      <name value="Python 3.8" />
+      <type value="Python SDK" />
+      <version value="Python 3.8.2" />
+      <homePath value="/usr/local/bin/python3.8" />
+      <roots>
+        <classPath>
+          <root type="composite">
+            <root url="file:///Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8" type="simple" />
+            <root url="file:///Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/lib-dynload" type="simple" />
+            <root url="file:///Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages" type="simple" />
+            <root url="file://$USER_HOME$/Library/Caches/PyCharm2019.3/python_stubs/-1199943125" type="simple" />
+            <root url="file://$APPLICATION_HOME_DIR$/plugins/python/helpers/python-skeletons" type="simple" />
+            <root url="file://$APPLICATION_HOME_DIR$/plugins/python/helpers/typeshed/stdlib/3" type="simple" />
+            <root url="file://$APPLICATION_HOME_DIR$/plugins/python/helpers/typeshed/stdlib/2and3" type="simple" />
+            <root url="file://$APPLICATION_HOME_DIR$/plugins/python/helpers/typeshed/third_party/3" type="simple" />
+            <root url="file://$APPLICATION_HOME_DIR$/plugins/python/helpers/typeshed/third_party/2and3" type="simple" />
+          </root>
+        </classPath>
+        <sourcePath>
+          <root type="composite" />
+        </sourcePath>
+      </roots>
+      <additional />
+    </jdk>
+    <jdk version="2">
+      <name value="Python 3.8 (dummy)" />
+      <type value="Python SDK" />
+      <version value="Python 3.8.2" />
+      <homePath value="$USER_HOME$/PycharmProjects/dummy/venv/bin/python" />
+      <roots>
+        <classPath>
+          <root type="composite">
+            <root url="file:///Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8" type="simple" />
+            <root url="file:///Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/lib-dynload" type="simple" />
+            <root url="file://$USER_HOME$/PycharmProjects/dummy/venv/lib/python3.8/site-packages" type="simple" />
+            <root url="jar://$USER_HOME$/PycharmProjects/dummy/venv/lib/python3.8/site-packages/setuptools-40.8.0-py3.8.egg!/" type="simple" />
+            <root url="file://$USER_HOME$/PycharmProjects/dummy/venv/lib/python3.8/site-packages/pip-19.0.3-py3.8.egg" type="simple" />
+            <root url="file://$USER_HOME$/Library/Caches/PyCharm2019.3/python_stubs/18963888" type="simple" />
+            <root url="file://$APPLICATION_HOME_DIR$/plugins/python/helpers/python-skeletons" type="simple" />
+            <root url="file://$APPLICATION_HOME_DIR$/plugins/python/helpers/typeshed/stdlib/3" type="simple" />
+            <root url="file://$APPLICATION_HOME_DIR$/plugins/python/helpers/typeshed/stdlib/2and3" type="simple" />
+            <root url="file://$APPLICATION_HOME_DIR$/plugins/python/helpers/typeshed/third_party/3" type="simple" />
+            <root url="file://$APPLICATION_HOME_DIR$/plugins/python/helpers/typeshed/third_party/2and3" type="simple" />
+          </root>
+        </classPath>
+        <sourcePath>
+          <root type="composite" />
+        </sourcePath>
+      </roots>
+      <additional ASSOCIATED_PROJECT_PATH="$USER_HOME$/PycharmProjects/dummy" />
+    </jdk>
+    <jdk version="2">
+      <name value="Python 3.8 (WeightedDataSphere)" />
+      <type value="Python SDK" />
+      <version value="Python 3.8.2" />
+      <homePath value="$USER_HOME$/Documents/Development/Python/WeightedDataSphere/venv/bin/python" />
+      <roots>
+        <classPath>
+          <root type="composite">
+            <root url="file:///Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8" type="simple" />
+            <root url="file:///Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/lib-dynload" type="simple" />
+            <root url="file://$USER_HOME$/Documents/Development/Python/WeightedDataSphere/venv/lib/python3.8/site-packages" type="simple" />
+            <root url="jar://$USER_HOME$/Documents/Development/Python/WeightedDataSphere/venv/lib/python3.8/site-packages/setuptools-40.8.0-py3.8.egg!/" type="simple" />
+            <root url="file://$USER_HOME$/Documents/Development/Python/WeightedDataSphere/venv/lib/python3.8/site-packages/pip-19.0.3-py3.8.egg" type="simple" />
+            <root url="file://$USER_HOME$/Library/Caches/PyCharm2019.3/python_stubs/-742065691" type="simple" />
+            <root url="file://$APPLICATION_HOME_DIR$/plugins/python/helpers/python-skeletons" type="simple" />
+            <root url="file://$APPLICATION_HOME_DIR$/plugins/python/helpers/typeshed/stdlib/3" type="simple" />
+            <root url="file://$APPLICATION_HOME_DIR$/plugins/python/helpers/typeshed/stdlib/2and3" type="simple" />
+            <root url="file://$APPLICATION_HOME_DIR$/plugins/python/helpers/typeshed/third_party/3" type="simple" />
+            <root url="file://$APPLICATION_HOME_DIR$/plugins/python/helpers/typeshed/third_party/2and3" type="simple" />
+          </root>
+        </classPath>
+        <sourcePath>
+          <root type="composite" />
+        </sourcePath>
+      </roots>
+      <additional ASSOCIATED_PROJECT_PATH="$USER_HOME$/Documents/Development/Python/WeightedDataSphere" />
+    </jdk>
+    <jdk version="2">
+      <name value="Python 3.8 (venv)" />
+      <type value="Python SDK" />
+      <version value="Python 3.8.2" />
+      <homePath value="$USER_HOME$/Documents/Development/Python/PandaTest/venv/bin/python" />
+      <roots>
+        <classPath>
+          <root type="composite">
+            <root url="file:///Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8" type="simple" />
+            <root url="file:///Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/lib-dynload" type="simple" />
+            <root url="file://$USER_HOME$/Documents/Development/Python/PandaTest/venv/lib/python3.8/site-packages" type="simple" />
+            <root url="file:///Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages" type="simple" />
+            <root url="file://$USER_HOME$/Library/Caches/PyCharm2019.3/python_stubs/-532969649" type="simple" />
+            <root url="file://$APPLICATION_HOME_DIR$/plugins/python/helpers/python-skeletons" type="simple" />
+            <root url="file://$APPLICATION_HOME_DIR$/plugins/python/helpers/typeshed/stdlib/3" type="simple" />
+            <root url="file://$APPLICATION_HOME_DIR$/plugins/python/helpers/typeshed/stdlib/2and3" type="simple" />
+            <root url="file://$APPLICATION_HOME_DIR$/plugins/python/helpers/typeshed/third_party/3" type="simple" />
+            <root url="file://$APPLICATION_HOME_DIR$/plugins/python/helpers/typeshed/third_party/2and3" type="simple" />
+          </root>
+        </classPath>
+        <sourcePath>
+          <root type="composite" />
+        </sourcePath>
+      </roots>
+      <additional />
+    </jdk>
+    <jdk version="2">
+      <name value="Python 3.8 (Elektro)" />
+      <type value="Python SDK" />
+      <version value="Python 3.8.2" />
+      <homePath value="$USER_HOME$/Documents/Development/Python/Elektro/venv/bin/python" />
+      <roots>
+        <classPath>
+          <root type="composite">
+            <root url="file:///Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8" type="simple" />
+            <root url="file:///Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/lib-dynload" type="simple" />
+            <root url="file://$USER_HOME$/Documents/Development/Python/Elektro/venv/lib/python3.8/site-packages" type="simple" />
+            <root url="jar://$USER_HOME$/Documents/Development/Python/Elektro/venv/lib/python3.8/site-packages/setuptools-40.8.0-py3.8.egg!/" type="simple" />
+            <root url="file://$USER_HOME$/Documents/Development/Python/Elektro/venv/lib/python3.8/site-packages/pip-19.0.3-py3.8.egg" type="simple" />
+            <root url="file://$USER_HOME$/Library/Caches/PyCharm2019.3/python_stubs/294153799" type="simple" />
+            <root url="file://$APPLICATION_HOME_DIR$/plugins/python/helpers/python-skeletons" type="simple" />
+            <root url="file://$APPLICATION_HOME_DIR$/plugins/python/helpers/typeshed/stdlib/3" type="simple" />
+            <root url="file://$APPLICATION_HOME_DIR$/plugins/python/helpers/typeshed/stdlib/2and3" type="simple" />
+            <root url="file://$APPLICATION_HOME_DIR$/plugins/python/helpers/typeshed/third_party/3" type="simple" />
+            <root url="file://$APPLICATION_HOME_DIR$/plugins/python/helpers/typeshed/third_party/2and3" type="simple" />
+          </root>
+        </classPath>
+        <sourcePath>
+          <root type="composite" />
+        </sourcePath>
+      </roots>
+      <additional ASSOCIATED_PROJECT_PATH="$USER_HOME$/Documents/Development/Python/Elektro" />
+    </jdk>
+    <jdk version="2">
+      <name value="Python 3.8 (Physik2)" />
+      <type value="Python SDK" />
+      <version value="Python 3.8.2" />
+      <homePath value="$USER_HOME$/Documents/Development/Python/Physik2/venv/bin/python" />
+      <roots>
+        <classPath>
+          <root type="composite">
+            <root url="file:///Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8" type="simple" />
+            <root url="file:///Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/lib-dynload" type="simple" />
+            <root url="file://$USER_HOME$/Documents/Development/Python/Physik2/venv/lib/python3.8/site-packages" type="simple" />
+            <root url="jar://$USER_HOME$/Documents/Development/Python/Physik2/venv/lib/python3.8/site-packages/setuptools-40.8.0-py3.8.egg!/" type="simple" />
+            <root url="file://$USER_HOME$/Documents/Development/Python/Physik2/venv/lib/python3.8/site-packages/pip-19.0.3-py3.8.egg" type="simple" />
+            <root url="file://$USER_HOME$/Library/Caches/PyCharm2019.3/python_stubs/-238308799" type="simple" />
+            <root url="file://$APPLICATION_HOME_DIR$/plugins/python/helpers/python-skeletons" type="simple" />
+            <root url="file://$APPLICATION_HOME_DIR$/plugins/python/helpers/typeshed/stdlib/3" type="simple" />
+            <root url="file://$APPLICATION_HOME_DIR$/plugins/python/helpers/typeshed/stdlib/2and3" type="simple" />
+            <root url="file://$APPLICATION_HOME_DIR$/plugins/python/helpers/typeshed/third_party/3" type="simple" />
+            <root url="file://$APPLICATION_HOME_DIR$/plugins/python/helpers/typeshed/third_party/2and3" type="simple" />
+          </root>
+        </classPath>
+        <sourcePath>
+          <root type="composite" />
+        </sourcePath>
+      </roots>
+      <additional ASSOCIATED_PROJECT_PATH="$USER_HOME$/Documents/Development/Python/Physik2" />
+    </jdk>
+    <jdk version="2">
+      <name value="Python 3.8 (KNN)" />
+      <type value="Python SDK" />
+      <version value="Python 3.8.2" />
+      <homePath value="$USER_HOME$/Documents/Development/Python/KNN/venv/bin/python" />
+      <roots>
+        <classPath>
+          <root type="composite">
+            <root url="file:///Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8" type="simple" />
+            <root url="file:///Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/lib-dynload" type="simple" />
+            <root url="file://$USER_HOME$/Documents/Development/Python/KNN/venv/lib/python3.8/site-packages" type="simple" />
+            <root url="jar://$USER_HOME$/Documents/Development/Python/KNN/venv/lib/python3.8/site-packages/setuptools-40.8.0-py3.8.egg!/" type="simple" />
+            <root url="file://$USER_HOME$/Library/Caches/PyCharm2019.3/python_stubs/558327726" type="simple" />
+            <root url="file://$APPLICATION_HOME_DIR$/plugins/python/helpers/python-skeletons" type="simple" />
+            <root url="file://$APPLICATION_HOME_DIR$/plugins/python/helpers/typeshed/stdlib/3" type="simple" />
+            <root url="file://$APPLICATION_HOME_DIR$/plugins/python/helpers/typeshed/stdlib/2and3" type="simple" />
+            <root url="file://$APPLICATION_HOME_DIR$/plugins/python/helpers/typeshed/third_party/3" type="simple" />
+            <root url="file://$APPLICATION_HOME_DIR$/plugins/python/helpers/typeshed/third_party/2and3" type="simple" />
+          </root>
+        </classPath>
+        <sourcePath>
+          <root type="composite" />
+        </sourcePath>
+      </roots>
+      <additional ASSOCIATED_PROJECT_PATH="$USER_HOME$/Documents/Development/Python/KNN" />
+    </jdk>
+    <jdk version="2">
+      <name value="Python 3.8 (WDS)" />
+      <type value="Python SDK" />
+      <version value="Python 3.8.2" />
+      <homePath value="$USER_HOME$/Documents/Development/Python/WDS/venv/bin/python" />
+      <roots>
+        <classPath>
+          <root type="composite">
+            <root url="file:///Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8" type="simple" />
+            <root url="file:///Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/lib-dynload" type="simple" />
+            <root url="file://$USER_HOME$/Documents/Development/Python/WDS/venv/lib/python3.8/site-packages" type="simple" />
+            <root url="jar://$USER_HOME$/Documents/Development/Python/WDS/venv/lib/python3.8/site-packages/setuptools-40.8.0-py3.8.egg!/" type="simple" />
+            <root url="file://$USER_HOME$/Documents/Development/Python/WDS/venv/lib/python3.8/site-packages/pip-19.0.3-py3.8.egg" type="simple" />
+            <root url="file://$USER_HOME$/Library/Caches/PyCharm2019.3/python_stubs/-1427997303" type="simple" />
+            <root url="file://$APPLICATION_HOME_DIR$/plugins/python/helpers/python-skeletons" type="simple" />
+            <root url="file://$APPLICATION_HOME_DIR$/plugins/python/helpers/typeshed/stdlib/3" type="simple" />
+            <root url="file://$APPLICATION_HOME_DIR$/plugins/python/helpers/typeshed/stdlib/2and3" type="simple" />
+            <root url="file://$APPLICATION_HOME_DIR$/plugins/python/helpers/typeshed/third_party/3" type="simple" />
+            <root url="file://$APPLICATION_HOME_DIR$/plugins/python/helpers/typeshed/third_party/2and3" type="simple" />
+          </root>
+        </classPath>
+        <sourcePath>
+          <root type="composite" />
+        </sourcePath>
+      </roots>
+      <additional ASSOCIATED_PROJECT_PATH="$USER_HOME$/Documents/Development/Python/WDS" />
+    </jdk>
+    <jdk version="2">
+      <name value="Python 3.8 (ModellingCourse)" />
+      <type value="Python SDK" />
+      <version value="Python 3.8.2" />
+      <homePath value="$USER_HOME$/Documents/Development/Python/ModellingCourse/venv/bin/python" />
+      <roots>
+        <classPath>
+          <root type="composite">
+            <root url="file:///Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8" type="simple" />
+            <root url="file:///Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/lib-dynload" type="simple" />
+            <root url="file://$USER_HOME$/Documents/Development/Python/ModellingCourse/venv/lib/python3.8/site-packages" type="simple" />
+            <root url="jar://$USER_HOME$/Documents/Development/Python/ModellingCourse/venv/lib/python3.8/site-packages/setuptools-40.8.0-py3.8.egg!/" type="simple" />
+            <root url="file://$USER_HOME$/Documents/Development/Python/ModellingCourse/venv/lib/python3.8/site-packages/pip-19.0.3-py3.8.egg" type="simple" />
+            <root url="file://$USER_HOME$/Library/Caches/PyCharm2019.3/python_stubs/1024369885" type="simple" />
+            <root url="file://$APPLICATION_HOME_DIR$/plugins/python/helpers/python-skeletons" type="simple" />
+            <root url="file://$APPLICATION_HOME_DIR$/plugins/python/helpers/typeshed/stdlib/3" type="simple" />
+            <root url="file://$APPLICATION_HOME_DIR$/plugins/python/helpers/typeshed/stdlib/2and3" type="simple" />
+            <root url="file://$APPLICATION_HOME_DIR$/plugins/python/helpers/typeshed/third_party/3" type="simple" />
+            <root url="file://$APPLICATION_HOME_DIR$/plugins/python/helpers/typeshed/third_party/2and3" type="simple" />
+          </root>
+        </classPath>
+        <sourcePath>
+          <root type="composite" />
+        </sourcePath>
+      </roots>
+      <additional ASSOCIATED_PROJECT_PATH="$USER_HOME$/Documents/Development/Python/ModellingCourse" />
+    </jdk>
+    <jdk version="2">
+      <name value="Python 3.8 (FFLmodel)" />
+      <type value="Python SDK" />
+      <version value="Python 3.8.2" />
+      <homePath value="$USER_HOME$/Documents/Development/Python/FFLmodel/venv/bin/python" />
+      <roots>
+        <classPath>
+          <root type="composite">
+            <root url="file:///Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8" type="simple" />
+            <root url="file:///Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/lib-dynload" type="simple" />
+            <root url="file://$USER_HOME$/Documents/Development/Python/FFLmodel/venv/lib/python3.8/site-packages" type="simple" />
+            <root url="jar://$USER_HOME$/Documents/Development/Python/FFLmodel/venv/lib/python3.8/site-packages/setuptools-40.8.0-py3.8.egg!/" type="simple" />
+            <root url="file://$USER_HOME$/Documents/Development/Python/FFLmodel/venv/lib/python3.8/site-packages/pip-19.0.3-py3.8.egg" type="simple" />
+            <root url="file://$USER_HOME$/Library/Caches/PyCharm2019.3/python_stubs/-820719916" type="simple" />
+            <root url="file://$APPLICATION_HOME_DIR$/plugins/python/helpers/python-skeletons" type="simple" />
+            <root url="file://$APPLICATION_HOME_DIR$/plugins/python/helpers/typeshed/stdlib/3" type="simple" />
+            <root url="file://$APPLICATION_HOME_DIR$/plugins/python/helpers/typeshed/stdlib/2and3" type="simple" />
+            <root url="file://$APPLICATION_HOME_DIR$/plugins/python/helpers/typeshed/third_party/3" type="simple" />
+            <root url="file://$APPLICATION_HOME_DIR$/plugins/python/helpers/typeshed/third_party/2and3" type="simple" />
+          </root>
+        </classPath>
+        <sourcePath>
+          <root type="composite" />
+        </sourcePath>
+      </roots>
+      <additional ASSOCIATED_PROJECT_PATH="$USER_HOME$/Documents/Development/Python/FFLmodel" />
+    </jdk>
+  </component>
+</application>
