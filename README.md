@@ -1,2 +1,2 @@
 # FFLmodel
-Feed-Forward-Loop by U. Alon implemented in Python
+Feed-Forward-Loop model by U. Alon implemented in Python
