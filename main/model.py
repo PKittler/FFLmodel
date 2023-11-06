@@ -103,3 +103,29 @@ for t_step in range(steps):
     x_active_values.append(model_solver.y[0][0])    # save only first value from last step
     y_values.append(model_solver.y[1][0])           # save only first value from last step
     z_values.append(model_solver.y[2][0])           # save only first value from last step
+
+# plot the results in one plot
+plt.figure(figsize=(12, 8))
+
+# 1st plot: turn s_x on and off
+plt.subplot(2, 1, 1)
+plt.plot(t_values, s_x_values, label='S_x')
+plt.xlabel('time')
+plt.ylabel('S_x')
+plt.title('turn S_x on and off')
+plt.grid(True)
+
+# 2nd plot: show concentration of x_active, y and z
+plt.subplot(2, 1, 2)
+plt.plot(t_values, x_active_values, label='X*')
+plt.plot(t_values, y_values, label='Y')
+plt.plot(t_values, z_values, label='Z')
+plt.xlabel('time')
+plt.ylabel('concentration')
+plt.legend()
+plt.title('Results of ODEs')
+plt.grid(True)
+
+plt.tight_layout()                  # arrange position of subplots to prevent overlaps
+
+plt.show()
