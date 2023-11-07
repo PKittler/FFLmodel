@@ -11,35 +11,50 @@ license     usage, modification and redistribution only for private, educational
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.integrate import solve_ivp
+import streamlit as st
+import pandas as pd
+
+st.set_page_config(page_title="Modelling a feed-forward loop network motif", page_icon=None, layout="wide", initial_sidebar_state="auto", menu_items=None)
+st.title("Modelling a feed-forward loop network motif | M. Hirsch, P. Kittler")
+
+st.sidebar.write("Show graphs:")
+sb_showgraph_colx, sb_showgraph_coly, sb_showgraph_colz = st.sidebar.columns(3)
+with sb_showgraph_colx:
+    show_x_active = st.checkbox('X*', value=True)
+with sb_showgraph_coly:
+    show_y = st.checkbox('Y', value=True)
+with sb_showgraph_colz:
+    show_z = st.checkbox('Z', value=True)
 
 # parameters
-s_x = 0             # input for X
-s_y = 0             # input for Y
+st.sidebar.subheader("Parameters")
+s_x = st.sidebar.slider("S_x", min_value=0., max_value=1., value=0., step=0.01)     # input for X
+s_y = st.sidebar.slider("S_y", min_value=0., max_value=1., value=0., step=0.01)     # input for Y
 
-k_xy = 1            # activation / repression coefficient XY
-k_xz = 1            # activation / repression coefficient XZ
-k_yz = 1            # activation / repression coefficient YZ
+x_active = st.sidebar.slider("X*", min_value=0., max_value=1., value=1., step=0.01)        # initial value for X
+y_0 = st.sidebar.slider("Y0", min_value=0., max_value=1., value=0., step=0.01)             # initial value for Y
+z_0 = st.sidebar.slider("Z0", min_value=0., max_value=1., value=0., step=0.01)             # initial value for Z
 
-b_y = 0             # basal concentration of Y
-b_z = 0             # basal concentration of Z
+k_xy = st.sidebar.slider("K_xy", min_value=0., max_value=1., value=1., step=0.01)   # activation / repression coefficient XY
+k_xz = st.sidebar.slider("K_xz", min_value=0., max_value=1., value=1., step=0.01)   # activation / repression coefficient XZ
+k_yz = st.sidebar.slider("K_yz", min_value=0., max_value=1., value=1., step=0.01)   # activation / repression coefficient YZ
 
-a_y = 1
-a_z = 1
+a_y = st.sidebar.slider("a_y", min_value=0., max_value=1., value=1., step=0.01)
+a_z = st.sidebar.slider("a_z", min_value=0., max_value=1., value=1., step=0.01)
 
-beta_y = 1
-beta_z = 1
+b_y = st.sidebar.slider("B_x", min_value=0., max_value=10., value=0., step=0.1)     # basal concentration of Y
+b_z = st.sidebar.slider("B_y", min_value=0., max_value=10., value=0., step=0.1)     # basal concentration of Z
 
-h = 2               # exponent of Hill function
+beta_y = st.sidebar.slider("beta_y", min_value=0., max_value=1., value=1., step=0.01)
+beta_z = st.sidebar.slider("beta_z", min_value=0., max_value=1., value=1., step=0.01)
 
-x_active = 1        # initial value for X
-y_0 = 0             # initial value for Y
-z_0 = 0             # initial value for Z
+h = st.sidebar.slider("H", min_value=0, max_value=3, value=2)                       # exponent of Hill function
+
+t_end = st.sidebar.slider("time interval", min_value=1., max_value=100., value=20.)         # time endpoint
+
+steps = st.sidebar.slider("steps", min_value=1, max_value=300, value=200)        # number of steps/points in calculation
 
 initial_values = [x_active, y_0, z_0]
-
-t_end = 20          # time endpoint
-
-steps = 200         # number of steps/points in calculation
 
 # function for regulation, named f in paper
 def Regulation (u, k, h, isActivator = True):
@@ -82,7 +97,9 @@ z_values = []
 s_x_values = []
 t_values = np.linspace(0, t_end, steps)
 
-time_switch = [5, 10, 15]
+time_switch = [5., 10., 15., 25.]
+
+
 
 # loop for calculation of results for each step
 for t_step in range(steps):
@@ -103,6 +120,92 @@ for t_step in range(steps):
     x_active_values.append(model_solver.y[0][0])    # save only first value from last step
     y_values.append(model_solver.y[1][0])           # save only first value from last step
     z_values.append(model_solver.y[2][0])           # save only first value from last step
+
+df = pd.DataFrame({
+    'time (s)': t_values,
+    'c[X*]': x_active_values,
+    'c[Y]': y_values,
+    'c[Z]': z_values
+})
+
+container_coherent = st.container()
+col_coherent_type_1, col_coherent_type_2, col_coherent_type_3, col_coherent_type_4 = container_coherent.columns(4)
+
+with col_coherent_type_1:
+    st.subheader("Coherent Type 1")
+    tab_plot, tab_data = st.tabs(["Plot", "Data"])
+
+with tab_plot:
+    st.line_chart(df, x="time (s)", y=["c[X*]", "c[Y]", "c[Z]"])
+with tab_data:
+    df
+
+with col_coherent_type_2:
+    st.subheader("Coherent Type 2")
+    tab_plot, tab_data = st.tabs(["Plot", "Data"])
+
+with tab_plot:
+    st.line_chart(df, x="time (s)", y=["c[X*]", "c[Y]", "c[Z]"])
+with tab_data:
+    df
+
+with col_coherent_type_3:
+    st.subheader("Coherent Type 3")
+    tab_plot, tab_data = st.tabs(["Plot", "Data"])
+
+with tab_plot:
+    st.line_chart(df, x="time (s)", y=["c[X*]", "c[Y]", "c[Z]"])
+with tab_data:
+    df
+
+with col_coherent_type_4:
+    st.subheader("Coherent Type 4")
+    tab_plot, tab_data = st.tabs(["Plot", "Data"])
+
+with tab_plot:
+    st.line_chart(df, x="time (s)", y=["c[X*]", "c[Y]", "c[Z]"])
+with tab_data:
+    df
+
+container_incoherent = st.container()
+col_incoherent_type_1, col_incoherent_type_2, col_incoherent_type_3, col_incoherent_type_4 = container_incoherent.columns(4)
+
+with col_incoherent_type_1:
+    st.subheader("Incoherent Type 1")
+    tab_plot, tab_data = st.tabs(["Plot", "Data"])
+
+with tab_plot:
+    st.line_chart(df, x="time (s)", y=["c[X*]", "c[Y]", "c[Z]"])
+with tab_data:
+    df
+
+with col_incoherent_type_2:
+    st.subheader("Incoherent Type 2")
+    tab_plot, tab_data = st.tabs(["Plot", "Data"])
+
+with tab_plot:
+    st.line_chart(df, x="time (s)", y=["c[X*]", "c[Y]", "c[Z]"])
+with tab_data:
+    df
+
+with col_incoherent_type_3:
+    st.subheader("Incoherent Type 3")
+    tab_plot, tab_data = st.tabs(["Plot", "Data"])
+
+with tab_plot:
+    st.line_chart(df, x="time (s)", y=["c[X*]", "c[Y]", "c[Z]"])
+with tab_data:
+    df
+
+with col_incoherent_type_4:
+    st.subheader("Incoherent Type 4")
+    tab_plot, tab_data = st.tabs(["Plot", "Data"])
+
+with tab_plot:
+    st.line_chart(df, x="time (s)", y=["c[X*]", "c[Y]", "c[Z]"])
+with tab_data:
+    df
+
 
 # plot the results in one plot
 plt.figure(figsize=(12, 8))
