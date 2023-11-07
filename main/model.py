@@ -100,7 +100,6 @@ t_values = np.linspace(0, t_end, steps)
 time_switch = [5., 10., 15., 25.]
 
 
-
 # loop for calculation of results for each step
 for t_step in range(steps):
     t = t_step * t_end / steps
@@ -128,6 +127,18 @@ df = pd.DataFrame({
     'c[Z]': z_values
 })
 
+dframe_coherent_type_1 = pd.DataFrame({
+    'time (s)': t_values,
+    'c[X*]': x_active_values,
+    'c[Y]': y_values,
+    'c[Z]': z_values
+})
+
+dframe_coherent_type_1_sx = pd.DataFrame({
+    'time (s)': t_values,
+    'S_x': s_x_values
+})
+
 container_coherent = st.container()
 col_coherent_type_1, col_coherent_type_2, col_coherent_type_3, col_coherent_type_4 = container_coherent.columns(4)
 
@@ -136,9 +147,10 @@ with col_coherent_type_1:
     tab_plot, tab_data = st.tabs(["Plot", "Data"])
 
 with tab_plot:
-    st.line_chart(df, x="time (s)", y=["c[X*]", "c[Y]", "c[Z]"])
+    st.line_chart(dframe_coherent_type_1_sx, x="time (s)", y="S_x")
+    st.line_chart(dframe_coherent_type_1, x="time (s)", y=["c[X*]", "c[Y]", "c[Z]"])
 with tab_data:
-    df
+    dframe_coherent_type_1
 
 with col_coherent_type_2:
     st.subheader("Coherent Type 2")
@@ -206,7 +218,7 @@ with tab_plot:
 with tab_data:
     df
 
-
+'''
 # plot the results in one plot
 plt.figure(figsize=(12, 8))
 
@@ -232,3 +244,4 @@ plt.grid(True)
 plt.tight_layout()                  # arrange position of subplots to prevent overlaps
 
 plt.show()
+'''
