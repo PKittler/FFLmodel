@@ -23,11 +23,11 @@ k_yz = 1            # activation / repression coefficient YZ
 b_y = 0             # basal concentration of Y
 b_z = 0             # basal concentration of Z
 
-a_y = 1
-a_z = 1
+a_y = 1             # Abbaurate von y: a_y = a_deg + a_dil
+a_z = 1             # Abbaurate von z: a_z = a_deg + a_dil
 
-beta_y = 1
-beta_z = 1
+beta_y = 1          # Produktionsrate von y 
+beta_z = 1          # Produktionsrate von z 
 
 h = 2               # exponent of Hill function
 
@@ -48,7 +48,7 @@ def Regulation (u, k, h, isActivator = True):
     else:
         return (1 / (1 + (u / k) ** h))
 
-# function for competitive regulation, named f_c in paper
+# function for competitive regulation, named f_c in paper 
 def Competitive_Regulation (u, v, k_u, k_v, h, isActivator = True):
     if isActivator == True:
         return (((u / k_u) ** h) / (1 + (u / k_u) ** h + (v / k_v) ** h))
@@ -76,7 +76,7 @@ def Model (t, init_vars, k_xy, k_xz, k_yz, a_y, b_y, beta_y, a_z, b_z, beta_z, h
     return [dxdt, dydt, dzdt]
 
 # preparation for plotting
-x_active_values = []
+x_values = []
 y_values = []
 z_values = []
 s_x_values = []
@@ -100,7 +100,7 @@ for t_step in range(steps):
     # update initial value (conditions)
     initial_values = [model_solver.y[0][-1], model_solver.y[1][-1], model_solver.y[2][-1]]
 
-    x_active_values.append(model_solver.y[0][0])    # save only first value from last step
+    x_values.append(model_solver.y[0][0])    # save only first value from last step
     y_values.append(model_solver.y[1][0])           # save only first value from last step
     z_values.append(model_solver.y[2][0])           # save only first value from last step
 
@@ -110,22 +110,35 @@ plt.figure(figsize=(12, 8))
 # 1st plot: turn s_x on and off
 plt.subplot(2, 1, 1)
 plt.plot(t_values, s_x_values, label='S_x')
-plt.xlabel('time')
+plt.xlabel('time [Life Time]')
 plt.ylabel('S_x')
 plt.title('turn S_x on and off')
-plt.grid(True)
+# plt.grid(True)
+plt.xticks([])                      #Zahlen ausbldenen auf der xachse
+plt.yticks([0, 1])
+plt.legend(loc='upper left', bbox_to_anchor=(0.05, 0.85), frameon=False)
+
 
 # 2nd plot: show concentration of x_active, y and z
 plt.subplot(2, 1, 2)
-plt.plot(t_values, x_active_values, label='X*')
+plt.plot(t_values, x_values, label='X')
 plt.plot(t_values, y_values, label='Y')
 plt.plot(t_values, z_values, label='Z')
-plt.xlabel('time')
+plt.xlabel('time[Life Time]')
 plt.ylabel('concentration')
-plt.legend()
 plt.title('Results of ODEs')
-plt.grid(True)
-
+# plt.grid(True)
+plt.xticks([])                      #Zahlen ausbldenen auf der xachse
+plt.yticks([0, 1])
 plt.tight_layout()                  # arrange position of subplots to prevent overlaps
+plt.legend(loc='upper left', bbox_to_anchor=(0.05, 0.85), frameon=False)
+
 
 plt.show()
+
+
+
+''' CHANGES
+X* in X umgenannt. 
+plt.legend(frameon=False)
+'''
