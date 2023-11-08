@@ -56,6 +56,25 @@ steps = st.sidebar.slider("steps", min_value=1, max_value=300, value=200)       
 
 initial_values = [s_x, 0, 0]
 
+# function for control the visibility of graphs
+def Plot_Control():
+    output = []
+    if(show_x_active == True):
+        output.append("c[X*]")
+
+    if(show_y == True):
+        output.append("c[Y]")
+
+    if(show_z == True):
+        output.append("c[Z]")
+
+    if(len(output) == 1):
+        reduced_output = output[0]
+        print(reduced_output)
+        return reduced_output
+    else:
+        return output
+
 # function for regulation, named f in paper
 def Regulation (u, k, h, isActivator = True):
     if isActivator == True:
@@ -152,7 +171,7 @@ with col_coherent_type_1:
 
 with tab_plot:
     st.line_chart(dframe_coherent_type_1_sx, x="time (s)", y="S_x")
-    st.line_chart(dframe_coherent_type_1, x="time (s)", y=["c[X*]", "c[Y]", "c[Z]"])
+    st.line_chart(dframe_coherent_type_1, x="time (s)", y=Plot_Control())
 with tab_data:
     dframe_coherent_type_1
 
@@ -161,7 +180,7 @@ with col_coherent_type_2:
     tab_plot, tab_data = st.tabs(["Plot", "Data"])
 
 with tab_plot:
-    st.line_chart(df, x="time (s)", y=["c[X*]", "c[Y]", "c[Z]"])
+    st.line_chart(df, x="time (s)", y=Plot_Control())
 with tab_data:
     df
 
@@ -170,7 +189,7 @@ with col_coherent_type_3:
     tab_plot, tab_data = st.tabs(["Plot", "Data"])
 
 with tab_plot:
-    st.line_chart(df, x="time (s)", y=["c[X*]", "c[Y]", "c[Z]"])
+    st.line_chart(df, x="time (s)", y=Plot_Control())
 with tab_data:
     df
 
@@ -179,7 +198,7 @@ with col_coherent_type_4:
     tab_plot, tab_data = st.tabs(["Plot", "Data"])
 
 with tab_plot:
-    st.line_chart(df, x="time (s)", y=["c[X*]", "c[Y]", "c[Z]"])
+    st.line_chart(df, x="time (s)", y=Plot_Control())
 with tab_data:
     df
 
@@ -191,7 +210,7 @@ with col_incoherent_type_1:
     tab_plot, tab_data = st.tabs(["Plot", "Data"])
 
 with tab_plot:
-    st.line_chart(df, x="time (s)", y=["c[X*]", "c[Y]", "c[Z]"])
+    st.line_chart(df, x="time (s)", y=Plot_Control())
 with tab_data:
     df
 
@@ -200,7 +219,7 @@ with col_incoherent_type_2:
     tab_plot, tab_data = st.tabs(["Plot", "Data"])
 
 with tab_plot:
-    st.line_chart(df, x="time (s)", y=["c[X*]", "c[Y]", "c[Z]"])
+    st.line_chart(df, x="time (s)", y=Plot_Control())
 with tab_data:
     df
 
@@ -209,7 +228,7 @@ with col_incoherent_type_3:
     tab_plot, tab_data = st.tabs(["Plot", "Data"])
 
 with tab_plot:
-    st.line_chart(df, x="time (s)", y=["c[X*]", "c[Y]", "c[Z]"])
+    st.line_chart(df, x="time (s)", y=Plot_Control())
 with tab_data:
     df
 
@@ -218,6 +237,6 @@ with col_incoherent_type_4:
     tab_plot, tab_data = st.tabs(["Plot", "Data"])
 
 with tab_plot:
-    st.line_chart(df, x="time (s)", y=["c[X*]", "c[Y]", "c[Z]"])
+    st.line_chart(df, x="time (s)", y=Plot_Control())
 with tab_data:
     df
