@@ -77,7 +77,7 @@ def fc_rep(u, Ku, Kv, v, H):
 
 
 def dYdt(t, Y, X_star, Kxy, ay, By, by, H, Sx):
-    X_star_effect = Sx * X_star  # Ein- und Ausschalten von Sx
+    X_star_effect = Sx * X_star  # An/Aus durch Sx
     if option == 1 or 4 or 5 or 8 or 9 or 12 or 13 or 16:
         return By + by * f_act(X_star_effect, Kxy, H) - ay * Y
     else:
@@ -86,7 +86,7 @@ def dYdt(t, Y, X_star, Kxy, ay, By, by, H, Sx):
 
 
 def dZdt(t, Z, X_star, Kxz, Y_star, Kyz, az, Bz, bz, H, Sx, option):
-    X_star_effect = Sx * X_star  # Ein- und Ausschalten von Sx
+    X_star_effect = Sx * X_star  # An/Aus durch Sx
     G_z = 0
 
     # AND: X activates Z, Y activates Z
@@ -126,7 +126,7 @@ def dZdt(t, Z, X_star, Kxz, Y_star, Kyz, az, Bz, bz, H, Sx, option):
 
 
 
-def system(t, variables, Kxy, Kxz, Kyz, ay, By, by, az, Bz, bz, H, Sx, option):
+def system(t, variables, Kxy, Kxz, Kyz, ay, By, by, az, Bz, bz, H, Sx, option, sx):
     X_star, Y, Z = variables
     dXdt = 0  # Angenommen, X wird konstitutiv ausgedrückt
     dYdt_val = dYdt(t, Y, X_star, Kxy, ay, By, by, H, Sx)
