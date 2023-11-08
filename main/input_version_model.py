@@ -37,9 +37,9 @@ option = get_user_selection()
 # Initialwerte und Params
 Sx = 0
 
-Kxy = 1 
-Kxz = 1 
-Kyz = 1 
+Kxy = 0.1 
+Kxz = 0.1 
+Kyz = 0.1
 
 By = 0
 Bz = 0
@@ -122,6 +122,9 @@ def dZdt(t, Z, X_star, Kxz, Y_star, Kyz, az, Bz, bz, H, Sx, option):
        G_z = fc_rep(X_star_effect, Kxz, Kyz, Y_star, H) + fc_rep(Y_star, Kyz, Kxz, X_star_effect, H)
 
     return Bz + bz * G_z - az * Z
+
+
+
 
 def system(t, variables, Kxy, Kxz, Kyz, ay, By, by, az, Bz, bz, H, Sx, option):
     X_star, Y, Z = variables
