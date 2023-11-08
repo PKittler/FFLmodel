@@ -143,7 +143,7 @@ Sx_values = []
 t_values = np.linspace(0, t_end, num_points)
 
 # Schaltzeiten für Sx
-Zeit_switch = [5, 10, 15]
+Zeit_switch = [5, 10, 20]
 
 
 
@@ -203,23 +203,23 @@ plt.ylabel('Konzentration')
 plt.legend()
 
 option_descriptions = {
-    1: "AND: X aktiviert Y, X aktiviert Z, Y aktiviert Z",
-    2: "AND: X inhibiert Y, X inhibiert Z, Y aktiviert Z",
-    3: "AND: X inhibiert Y, X aktiviert Z, Y inhibiert Z",
-    4: "AND: X aktiviert Y, X inhibiert Z, Y inhibiert Z",
-    5: "AND: X aktiviert Y, X aktiviert Z, Y inhibiert Z",
-    6: "AND: X inhibiert Y, X inhibiert Z, Y inhibiert Z", # III
-    7: "AND: X inhibiert Y, X aktiviert Z, Y aktiviert Z", # IAA
-    8: "AND: X aktiviert Y, X inhibiert Z, Y aktiviert Z", # AIA
+    1: "AND: X → Y, X → Z, Y → Z",
+    2: "AND: X ⊣ Y, X ⊣ Z, Y → Z",
+    3: "AND: X ⊣ Y, X → Z, Y ⊣ Z",
+    4: "AND: X → Y, X ⊣ Z, Y ⊣ Z",
+    5: "AND: X → Y, X → Z, Y ⊣ Z",
+    6: "AND: X ⊣ Y, X ⊣ Z, Y ⊣ Z", # III
+    7: "AND: X ⊣ Y, X → Z, Y → Z", # IAA
+    8: "AND: X → Y, X ⊣ Z, Y → Z", # AIA
 
-    9: "OR: X aktiviert Y, X aktiviert Z, Y aktiviert Z", # AAA
-    10: "OR: X inhibiert Y, X inhibiert Z, Y aktiviert Z", # IIA
-    11: "OR: X inhibiert Y, X aktiviert Z, Y inhibiert Z", # IAI
-    12: "OR: X aktiviert Y, X inhibiert Z, Y inhibiert Z", # AII
-    13: "OR: X aktiviert Y, X aktiviert Z, Y inhibiert Z", # AAI
-    14: "OR: X inhibiert Y, X inhibiert Z, Y inhibiert Z", # III
-    15: "OR: X inhibiert Y, X aktiviert Z, Y aktiviert Z", # IAA
-    16: "OR: X aktiviert Y, X inhibiert Z, Y aktiviert Z", # AIA    
+    9: "OR: X → Y, X → Z, Y → Z", # AAA
+    10: "OR: X ⊣ Y, X ⊣ Z, Y → Z", # IIA
+    11: "OR: X ⊣ Y, X → Z, Y ⊣ Z", # IAI
+    12: "OR: X → Y, X ⊣ Z, Y ⊣ Z", # AII
+    13: "OR: X → Y, X → Z, Y ⊣ Z", # AAI
+    14: "OR: X ⊣ Y, X ⊣ Z, Y ⊣ Z", # III
+    15: "OR: X ⊣ Y, X → Z, Y → Z", # IAA
+    16: "OR: X → Y, X ⊣ Z, Y → Z", # AIA    
 }
 plot_title = option_descriptions[option]
 plt.title(plot_title)
