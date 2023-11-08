@@ -70,7 +70,9 @@ bz = 1
 H = 2
 
 X = 1
-y = 1
+y0 = 1
+
+
 Y0 = 0
 Z0 = 0
 
@@ -102,7 +104,7 @@ def dYdt(t, Y, X_star, Kxy, ay, By, by, H, Sx, option):
 
 def dZdt(t, Z, X_star, Kxz, Y_star, Kyz, az, Bz, bz, H, Sx, option):
     X_star_effect = Sx * X_star  # An/Aus durch Sx
-    Y_star = Sy * y
+    
     G_z = 0
 
     # AND: X activates Z, Y activates Z
@@ -144,6 +146,7 @@ def dZdt(t, Z, X_star, Kxz, Y_star, Kyz, az, Bz, bz, H, Sx, option):
 
 def system(t, variables, Kxy, Kxz, Kyz, ay, By, by, az, Bz, bz, H, Sx, option, ):
     X_star, Y, Z = variables
+    y_star = Sy * Y
     dXdt = 0  # Angenommen, X wird konstitutiv ausgedrückt
     dYdt_val = dYdt(t, Y, X_star, Kxy, ay, By, by, H, Sx, option)
     dZdt_val = dZdt(t, Z, X_star, Kxz, Y, Kyz, az, Bz, bz, H, Sx, option)
@@ -187,11 +190,11 @@ for t_step in range(num_points):
         args=(Kxy, Kxz, Kyz, ay, By, by, az, Bz, bz, H, Sx, option),
     )
 
-    Initialwerte = [sol.y[0][-1], sol.y[1][-1], sol.y[2][-1]]  # Aktualisieren der Anfangsbedingungen
+Initialwerte = [sol.y[0][-1], sol.y[1][-1], sol.y[2][-1]]  # Aktualisieren der Anfangsbedingungen
 
-    X_star_values.append(sol.y[0][0])  # Nur den ersten Wert aus dem letzten Zeitschritt speichern
-    Y_values.append(sol.y[1][0])  # Nur den ersten Wert aus dem letzten Zeitschritt speichern
-    Z_values.append(sol.y[2][0])  # Nur den ersten Wert aus dem letzten Zeitschritt speichern
+X_star_values.append(sol.y[0][0])  # Nur den ersten Wert aus dem letzten Zeitschritt speichern
+Y_values.append(sol.y[1][0])  # Nur den ersten Wert aus dem letzten Zeitschritt speichern
+Z_values.append(sol.y[2][0])  # Nur den ersten Wert aus dem letzten Zeitschritt speichern
 
 
 
