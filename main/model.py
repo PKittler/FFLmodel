@@ -20,16 +20,13 @@ st.title("Modelling a feed-forward loop network motif | M. Hirsch, P. Kittler")
 st.sidebar.write("Show graphs:")
 sb_showgraph_colx, sb_showgraph_coly, sb_showgraph_colz = st.sidebar.columns(3)
 with sb_showgraph_colx:
-    show_x_active = st.checkbox('X*', value=True)
+    show_x_active = st.checkbox('X*', value=False)
 with sb_showgraph_coly:
-    show_y = st.checkbox('Y', value=True)
+    show_y = st.checkbox('Y', value=False)
 with sb_showgraph_colz:
     show_z = st.checkbox('Z', value=True)
 
 # parameters
-s_x = 1
-s_y = 1
-
 x_active = 0
 y_0 = 0
 z_0 = 0
@@ -54,8 +51,6 @@ h = st.sidebar.slider("H", min_value=0, max_value=3, value=2)                   
 t_interval = st.sidebar.slider("S_x active time interval", 1.0, 100.0, (10., 15.))         # time endpoint
 steps = st.sidebar.slider("steps", min_value=1, max_value=300, value=200)        # number of steps/points in calculation
 
-initial_values = [s_x, 0, 0]
-
 # function for control the visibility of graphs
 def Plot_Control():
     output = []
@@ -70,9 +65,10 @@ def Plot_Control():
 
     if(len(output) == 1):
         reduced_output = output[0]
-        print(reduced_output)
+        print("length:", len(output))
         return reduced_output
     else:
+        print("length:", len(output))
         return output
 
 # function for regulation, named f in paper
@@ -113,53 +109,54 @@ def Model (t, init_vars, k_xy, k_xz, k_yz, a_y, b_y, beta_y, a_z, b_z, beta_z, h
 
     return [dxdt, dydt, dzdt]
 
-# preparation for plotting
-t_span = t_interval[1] - t_interval[0]
-x_active_values = []
-y_values = []
-z_values = []
-s_x_values = []
-t_values = np.linspace(0, 100, steps)
+def CalculateType(s_x, s_y):
+    initial_values = [s_x, s_y, 0]
+    # preparation for plotting
+    t_span = t_interval[1] - t_interval[0]
+    x_active_values = []
+    y_values = []
+    z_values = []
+    s_x_values = []
+    t_values = np.linspace(0, 100, steps)
 
-# loop for calculation of results for each step
-for t_step in range(steps):
-    t = (100 / steps) * t_step
+    for t_step in range(steps):
+        t = (100 / steps) * t_step
 
-    if(t > t_interval[0] and t < t_interval[1]):
-        x_active = s_x
-        s_x_values.append(s_x)  # write s_x in list
-    else:
-        x_active = 0
-        s_x_values.append(0)  # write s_x in list
+        if (t > t_interval[0] and t < t_interval[1]):
+            x_active = s_x
+            s_x_values.append(s_x)  # write s_x in list
+        else:
+            x_active = 0
+            s_x_values.append(0)  # write s_x in list
 
-    #model_solver = solve_ivp(Model, (t_values[0], t_values[-1]), initial_values, args = (k_xy, k_xz, k_yz, a_y, b_y, beta_y, a_z, b_z, beta_z, h, s_x_values[-1], True), t_eval = t_values)
-    model_solver = solve_ivp(Model, (t, t + t_values[-1]/steps), initial_values, args = (k_xy, k_xz, k_yz, a_y, b_y, beta_y, a_z, b_z, beta_z, h, s_x_values[-1], True), t_eval = [t + t_span /steps])
+        model_solver = solve_ivp(Model, (t, t + t_values[-1] / steps), initial_values, args=(k_xy, k_xz, k_yz, a_y, b_y, beta_y, a_z, b_z, beta_z, h, s_x_values[-1], True), t_eval=[t + t_span / steps])
 
-    # update initial value (conditions)
-    print(model_solver.y[1][-1])
-    initial_values = [model_solver.y[0][-1], model_solver.y[1][-1], model_solver.y[2][-1]]
+        # update initial value (conditions)
+        initial_values = [model_solver.y[0][-1], model_solver.y[1][-1], model_solver.y[2][-1]]
 
-    x_active_values.append(model_solver.y[0][0])    # save only first value from last step
-    y_values.append(model_solver.y[1][0])           # save only first value from last step
-    z_values.append(model_solver.y[2][0])           # save only first value from last step
+        x_active_values.append(model_solver.y[0][0])  # save only first value from last step
+        y_values.append(model_solver.y[1][0])  # save only first value from last step
+        z_values.append(model_solver.y[2][0])  # save only first value from last step
 
-df = pd.DataFrame({
-    'time (s)': t_values,
-    'c[X*]': x_active_values,
-    'c[Y]': y_values,
-    'c[Z]': z_values
-})
+    # pack the results in 1 output object
+    output_object = [t_values, x_active_values, y_values, z_values, s_x_values]
+
+    return output_object
+
+# COHERENT TYPE 1
+
+CT1 = CalculateType(s_x = 1, s_y = 1)
 
 dframe_coherent_type_1 = pd.DataFrame({
-    'time (s)': t_values,
-    'c[X*]': x_active_values,
-    'c[Y]': y_values,
-    'c[Z]': z_values
+    'time': CT1[0],
+    'c[X*]': CT1[1],
+    'c[Y]': CT1[2],
+    'c[Z]': CT1[3]
 })
 
 dframe_coherent_type_1_sx = pd.DataFrame({
-    'time (s)': t_values,
-    'S_x': s_x_values
+    'time': CT1[0],
+    'S_x': CT1[4]
 })
 
 container_coherent = st.container()
@@ -170,8 +167,8 @@ with col_coherent_type_1:
     tab_plot, tab_data = st.tabs(["Plot", "Data"])
 
 with tab_plot:
-    st.line_chart(dframe_coherent_type_1_sx, x="time (s)", y="S_x")
-    st.line_chart(dframe_coherent_type_1, x="time (s)", y=Plot_Control())
+    st.line_chart(dframe_coherent_type_1_sx, x="time", y="S_x")
+    st.line_chart(dframe_coherent_type_1, x="time", y=Plot_Control())
 with tab_data:
     dframe_coherent_type_1
 
@@ -180,7 +177,7 @@ with col_coherent_type_2:
     tab_plot, tab_data = st.tabs(["Plot", "Data"])
 
 with tab_plot:
-    st.line_chart(df, x="time (s)", y=Plot_Control())
+    st.line_chart(df, x="time", y=Plot_Control())
 with tab_data:
     df
 
