@@ -28,8 +28,8 @@ with sb_showgraph_colz:
 
 # parameters
 st.sidebar.subheader("Parameters")
-s_x = st.sidebar.slider("S_x", min_value=0., max_value=1., value=0., step=0.01)     # input for X
-s_y = st.sidebar.slider("S_y", min_value=0., max_value=1., value=0., step=0.01)     # input for Y
+s_x = st.sidebar.slider("S_x", min_value=0, max_value=1, value=0, step=1)     # input for X
+s_y = st.sidebar.slider("S_y", min_value=0, max_value=1, value=0, step=1)     # input for Y
 
 x_active = st.sidebar.slider("X*", min_value=0., max_value=1., value=1., step=0.01)        # initial value for X
 y_0 = st.sidebar.slider("Y0", min_value=0., max_value=1., value=0., step=0.01)             # initial value for Y
@@ -50,8 +50,7 @@ beta_z = st.sidebar.slider("beta_z", min_value=0., max_value=1., value=1., step=
 
 h = st.sidebar.slider("H", min_value=0, max_value=3, value=2)                       # exponent of Hill function
 
-t_end = st.sidebar.slider("time interval", min_value=1., max_value=100., value=20.)         # time endpoint
-
+t_interval = st.sidebar.slider("time interval", 1.0, 100.0, (10., 15.))         # time endpoint
 steps = st.sidebar.slider("steps", min_value=1, max_value=300, value=200)        # number of steps/points in calculation
 
 initial_values = [x_active, y_0, z_0]
@@ -91,28 +90,28 @@ def Model (t, init_vars, k_xy, k_xz, k_yz, a_y, b_y, beta_y, a_z, b_z, beta_z, h
     return [dxdt, dydt, dzdt]
 
 # preparation for plotting
+t_span = t_interval[1] - t_interval[0]
 x_active_values = []
 y_values = []
 z_values = []
 s_x_values = []
-t_values = np.linspace(0, t_end, steps)
+t_values = np.linspace(0, 100, steps)
 
 time_switch = [5., 10., 15., 25.]
 
-
 # loop for calculation of results for each step
 for t_step in range(steps):
-    t = t_step * t_end / steps
+    t = (100 / steps) * t_step
 
-    s_x_values.append(s_x)              # write s_x in list
+    current_s_x = s_x
+    if(t > t_interval[0] and t < t_interval[1]):
+        s_x_values.append(s_x)              # write s_x in list
+        current_s_x = 1
+    else:
+        s_x_values.append(s_x - 1)
+        current_s_x = 0
 
-    # check, if s_x should turn on/off
-    if t in time_switch:
-        s_x = 1 - s_x                   # can be 0/1
-
-    # only last steps is needed
-    model_solver = solve_ivp(Model, (t, t + t_end / steps), initial_values, args = (k_xy, k_xz, k_yz, a_y, b_y, beta_y, a_z, b_z, beta_z, h, s_x, True), t_eval = [t + t_end / steps])
-
+    model_solver = solve_ivp(Model, (t_interval[0], t_interval[1]), initial_values, args = (k_xy, k_xz, k_yz, a_y, b_y, beta_y, a_z, b_z, beta_z, h, current_s_x, True), t_eval = [t_interval[1]])
     # update initial value (conditions)
     initial_values = [model_solver.y[0][-1], model_solver.y[1][-1], model_solver.y[2][-1]]
 
