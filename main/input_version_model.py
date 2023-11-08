@@ -32,10 +32,27 @@ def get_user_selection():
         else:
             print("Ungültige Eingabe. Bitte wählen Sie eine Nummer zwischen 1 und 16.")
 
+
 option = get_user_selection()
 
-# Initialwerte und Params
+params = {
+    'Kxy': 0.1, 
+    'Kxz': 0.1, 
+    'Kyz': 0.1,
+    
+    'By': 0,
+    'Bz': 0,
+
+    'ay': 1, 
+    'az': 1, 
+    'by': 1, 
+    'bz': 1,
+    'H': 2,
+    'Sx': 0,
+}
+
 Sx = 0
+Sy = 0
 
 Kxy = 0.1 
 Kxz = 0.1 
@@ -52,13 +69,10 @@ bz = 1
 
 H = 2
 
-X_star = 1
+X = 1
+y = 1
 Y0 = 0
 Z0 = 0
-Initialwerte = [X_star, Y0, Z0]
-
-t_end = 20  
-num_points = 200 
 
 
 def f_act(u, K, H):
@@ -76,17 +90,19 @@ def fc_rep(u, Ku, Kv, v, H):
 
 
 
-def dYdt(t, Y, X_star, Kxy, ay, By, by, H, Sx):
-    X_star_effect = Sx * X_star  # An/Aus durch Sx
+def dYdt(t, Y, X_star, Kxy, ay, By, by, H, Sx, option):
+    X_star = Sx * X  # An/Aus durch Sx
+    
     if option == 1 or 4 or 5 or 8 or 9 or 12 or 13 or 16:
-        return By + by * f_act(X_star_effect, Kxy, H) - ay * Y
+        return By + by * f_act(X_star, Kxy, H) - ay * Y
     else:
-        return By + by * f_rep(X_star_effect, Kxy, H) - ay * Y
+        return By + by * f_rep(X_star, Kxy, H) - ay * Y
     
 
 
 def dZdt(t, Z, X_star, Kxz, Y_star, Kyz, az, Bz, bz, H, Sx, option):
     X_star_effect = Sx * X_star  # An/Aus durch Sx
+    Y_star = Sy * y
     G_z = 0
 
     # AND: X activates Z, Y activates Z
@@ -126,10 +142,10 @@ def dZdt(t, Z, X_star, Kxz, Y_star, Kyz, az, Bz, bz, H, Sx, option):
 
 
 
-def system(t, variables, Kxy, Kxz, Kyz, ay, By, by, az, Bz, bz, H, Sx, option, sx):
+def system(t, variables, Kxy, Kxz, Kyz, ay, By, by, az, Bz, bz, H, Sx, option, ):
     X_star, Y, Z = variables
     dXdt = 0  # Angenommen, X wird konstitutiv ausgedrückt
-    dYdt_val = dYdt(t, Y, X_star, Kxy, ay, By, by, H, Sx)
+    dYdt_val = dYdt(t, Y, X_star, Kxy, ay, By, by, H, Sx, option)
     dZdt_val = dZdt(t, Z, X_star, Kxz, Y, Kyz, az, Bz, bz, H, Sx, option)
     return [dXdt, dYdt_val, dZdt_val]
 
@@ -142,13 +158,17 @@ Y_values = []
 Z_values = []
 Sx_values = []
 
+# Zur Berechnung von t_span
+t_end = 20  
+num_points = 200 
+
 # Liste von Zeiten entsprechend der Anzahl der Zeitschritte
 t_values = np.linspace(0, t_end, num_points)
 
 # Schaltzeiten für Sx
 Zeit_switch = [5, 10, 20]
-
-
+# 
+Initialwerte = [X_star, Y0, Z0]
 
 # Schleife über die Zeitschritte und Ergebniss berechnen
 for t_step in range(num_points):
@@ -165,7 +185,6 @@ for t_step in range(num_points):
         (t, t + t_end / num_points),
         Initialwerte,
         args=(Kxy, Kxz, Kyz, ay, By, by, az, Bz, bz, H, Sx, option),
-        t_eval=[t + t_end / num_points],  # Nur den letzten Zeitschritt auswerten
     )
 
     Initialwerte = [sol.y[0][-1], sol.y[1][-1], sol.y[2][-1]]  # Aktualisieren der Anfangsbedingungen
@@ -206,11 +225,11 @@ plt.ylabel('Konzentration')
 plt.legend()
 
 option_descriptions = {
-    1: "AND: X → Y, X → Z, Y → Z",
-    2: "AND: X ⊣ Y, X ⊣ Z, Y → Z",
-    3: "AND: X ⊣ Y, X → Z, Y ⊣ Z",
-    4: "AND: X → Y, X ⊣ Z, Y ⊣ Z",
-    5: "AND: X → Y, X → Z, Y ⊣ Z",
+    1: "AND: X → Y, X → Z, Y → Z", # AAA
+    2: "AND: X ⊣ Y, X ⊣ Z, Y → Z", # IIA
+    3: "AND: X ⊣ Y, X → Z, Y ⊣ Z", # IAI
+    4: "AND: X → Y, X ⊣ Z, Y ⊣ Z", # AII
+    5: "AND: X → Y, X → Z, Y ⊣ Z", # AAI
     6: "AND: X ⊣ Y, X ⊣ Z, Y ⊣ Z", # III
     7: "AND: X ⊣ Y, X → Z, Y → Z", # IAA
     8: "AND: X → Y, X ⊣ Z, Y → Z", # AIA
