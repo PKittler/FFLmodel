@@ -15,7 +15,7 @@ def get_user_selection():
     print("8: OR: X inhibiert Z, Y inhibiert Z")
     while True:
         user_input = input("Geben Sie die Nummer der gewünschten Option ein (1-8): ")
-        if user_input.isdigit() and 1 <= int(user_input) <= 8:
+        if 1 <= int(user_input) <= 8:
             return int(user_input)
         else:
             print("Ungültige Eingabe. Bitte wählen Sie eine Nummer zwischen 1 und 8.")
@@ -75,25 +75,25 @@ def dZdt(t, Z, X_star, Kxz, Y_star, Kyz, az, Bz, bz, H, Sx, option):
     # AND: X activates Z, Y activates Z
     if option == 1: 
         G_z = f_act(X_star_effect, Kxz, H) * f_act(X_star_effect, Kyz, H)
-    # AND: X represses Z, Y activates Z
+    # AND: X inhibits Z, Y activates Z
     elif option == 2:
         G_z = f_rep(X_star_effect, Kxz, H) * f_act(X_star_effect, Kyz, H)
-    # AND: X activates Z, Y represses Z
+    # AND: X activates Z, Y inhibits Z
     elif option == 3:
         G_z_AND = f_act(X_star_effect, Kxz, H) * f_rep(X_star_effect, Kyz, H)
-    # AND: X represses Z. Y represses Z
+    # AND: X inhibits Z. Y inhibits Z
     elif option == 4:
         G_z_AND = f_rep(X_star_effect, Kxz, H) * f_rep(X_star_effect, Kyz, H)
     # OR: X activates Z, Y activates Z    
     elif option == 5:
         G_z_OR = fc_act(X_star_effect, Kxz, Kyz, Y_star, H) + fc_act(Y_star, Kyz, Kxz, X_star_effect, H)
-    # OR: X represses Z, Y activates Z
+    # OR: X inhibits Z, Y activates Z
     elif option == 6:
         G_z_OR = fc_rep(X_star_effect, Kxz, Kyz, Y_star, H) + fc_act(Y_star, Kyz, Kxz, X_star_effect, H)
-    # OR: X activates Z, Y represses Z
+    # OR: X activates Z, Y inhibits Z
     elif option == 7:
         G_z_OR = fc_act(X_star_effect, Kxz, Kyz, Y_star, H) + fc_rep(Y_star, Kyz, Kxz, X_star_effect, H)
-    # OR: X represses Z. Y represses Z
+    # OR: X inhibits Z. Y inhibits Z
     elif option == 8:
        G_z_OR = fc_rep(X_star_effect, Kxz, Kyz, Y_star, H) + fc_rep(Y_star, Kyz, Kxz, X_star_effect, H)
 
