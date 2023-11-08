@@ -31,7 +31,7 @@ st.sidebar.subheader("Parameters")
 s_x = st.sidebar.slider("S_x", min_value=0, max_value=1, value=0, step=1)     # input for X
 s_y = st.sidebar.slider("S_y", min_value=0, max_value=1, value=0, step=1)     # input for Y
 
-x_active = st.sidebar.slider("X*", min_value=0., max_value=1., value=1., step=0.01)        # initial value for X
+x_active = st.sidebar.slider("X*", min_value=0., max_value=1., value=0., step=0.01)        # initial value for X
 y_0 = st.sidebar.slider("Y0", min_value=0., max_value=1., value=0., step=0.01)             # initial value for Y
 z_0 = st.sidebar.slider("Z0", min_value=0., max_value=1., value=0., step=0.01)             # initial value for Z
 
@@ -53,7 +53,7 @@ h = st.sidebar.slider("H", min_value=0, max_value=3, value=2)                   
 t_interval = st.sidebar.slider("time interval", 1.0, 100.0, (10., 15.))         # time endpoint
 steps = st.sidebar.slider("steps", min_value=1, max_value=300, value=200)        # number of steps/points in calculation
 
-initial_values = [x_active, y_0, z_0]
+initial_values = [s_x, 0, 0]
 
 # function for regulation, named f in paper
 def Regulation (u, k, h, isActivator = True):
@@ -71,7 +71,7 @@ def Competitive_Regulation (u, v, k_u, k_v, h, isActivator = True):
 
 # function for time derivative of Y
 def ODE_Y (t, y, x_active, k_xy, a_y, b_y, beta_y, h, s_x, flag_activator):
-    x = s_x * x_active              # switch for turn X on/off
+    x = x_active             # switch for turn X on/off
     return b_y + beta_y * Regulation(x, k_xy, h, isActivator=flag_activator) - a_y * y
 
 # function for time derivative of Z
@@ -82,6 +82,10 @@ def ODE_Z (t, z, y,  x_active, k_xz, k_yz, a_z, b_z, beta_z, h, s_x, flag_activa
 # function for model to merge ODE_Y and ODE_Z to a ODE system
 def Model (t, init_vars, k_xy, k_xz, k_yz, a_y, b_y, beta_y, a_z, b_z, beta_z, h, s_x, flag_activator):
     x_active, y, z = init_vars
+    if(s_x == 1):
+        x_active = 1
+    else:
+        x_active = 0
 
     dxdt = 0                        # if X is constant, then change rate is 0
     dydt = ODE_Y(t, y, x_active, k_xy, a_y, b_y, beta_y, h, s_x, flag_activator)
@@ -97,22 +101,22 @@ z_values = []
 s_x_values = []
 t_values = np.linspace(0, 100, steps)
 
-time_switch = [5., 10., 15., 25.]
-
 # loop for calculation of results for each step
 for t_step in range(steps):
     t = (100 / steps) * t_step
 
-    current_s_x = s_x
     if(t > t_interval[0] and t < t_interval[1]):
-        s_x_values.append(s_x)              # write s_x in list
-        current_s_x = 1
+        x_active = s_x
+        s_x_values.append(s_x)  # write s_x in list
     else:
-        s_x_values.append(s_x - 1)
-        current_s_x = 0
+        x_active = 0
+        s_x_values.append(0)  # write s_x in list
 
-    model_solver = solve_ivp(Model, (t_interval[0], t_interval[1]), initial_values, args = (k_xy, k_xz, k_yz, a_y, b_y, beta_y, a_z, b_z, beta_z, h, current_s_x, True), t_eval = [t_interval[1]])
+    #model_solver = solve_ivp(Model, (t_values[0], t_values[-1]), initial_values, args = (k_xy, k_xz, k_yz, a_y, b_y, beta_y, a_z, b_z, beta_z, h, s_x_values[-1], True), t_eval = t_values)
+    model_solver = solve_ivp(Model, (t, t + t_values[-1]/steps), initial_values, args = (k_xy, k_xz, k_yz, a_y, b_y, beta_y, a_z, b_z, beta_z, h, s_x_values[-1], True), t_eval = [t + t_span /steps])
+
     # update initial value (conditions)
+    print(model_solver.y[1][-1])
     initial_values = [model_solver.y[0][-1], model_solver.y[1][-1], model_solver.y[2][-1]]
 
     x_active_values.append(model_solver.y[0][0])    # save only first value from last step
@@ -216,31 +220,3 @@ with tab_plot:
     st.line_chart(df, x="time (s)", y=["c[X*]", "c[Y]", "c[Z]"])
 with tab_data:
     df
-
-'''
-# plot the results in one plot
-plt.figure(figsize=(12, 8))
-
-# 1st plot: turn s_x on and off
-plt.subplot(2, 1, 1)
-plt.plot(t_values, s_x_values, label='S_x')
-plt.xlabel('time')
-plt.ylabel('S_x')
-plt.title('turn S_x on and off')
-plt.grid(True)
-
-# 2nd plot: show concentration of x_active, y and z
-plt.subplot(2, 1, 2)
-plt.plot(t_values, x_active_values, label='X*')
-plt.plot(t_values, y_values, label='Y')
-plt.plot(t_values, z_values, label='Z')
-plt.xlabel('time')
-plt.ylabel('concentration')
-plt.legend()
-plt.title('Results of ODEs')
-plt.grid(True)
-
-plt.tight_layout()                  # arrange position of subplots to prevent overlaps
-
-plt.show()
-'''
