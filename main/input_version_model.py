@@ -149,23 +149,13 @@ for t_step in range(num_points):
 
 
 
-option_descriptions = {
-    1: "AND: X aktiviert Z, Y aktiviert Z",
-    2: "AND: X inhibiert Z, Y aktiviert Z",
-    3: "AND: X aktiviert Z, Y inhibiert Z",
-    4: "AND: X inhibiert Z, Y inhibiert Z",
-    5: "OR: X aktiviert Z, Y aktiviert Z",
-    6: "OR: X inhibiert Z, Y aktiviert Z",
-    7: "OR: X aktiviert Z, Y inhibiert Z",
-    8: "OR: X inhibiert Z, Y inhibiert Z"
-}
 
 
 
 
 
-# Setzen Sie den Plot-Titel basierend auf der gewählten Option
-plot_title = option_descriptions[option]
+
+
 
 
 # Plot der Ergebnisse in einem gemeinsamen Plot
@@ -187,6 +177,18 @@ plt.plot(t_values, Z_values, label='Z')
 plt.xlabel('Zeit')
 plt.ylabel('Konzentration')
 plt.legend()
+
+option_descriptions = {
+    1: "AND: X aktiviert Z, Y aktiviert Z",
+    2: "AND: X inhibiert Z, Y aktiviert Z",
+    3: "AND: X aktiviert Z, Y inhibiert Z",
+    4: "AND: X inhibiert Z, Y inhibiert Z",
+    5: "OR: X aktiviert Z, Y aktiviert Z",
+    6: "OR: X inhibiert Z, Y aktiviert Z",
+    7: "OR: X aktiviert Z, Y inhibiert Z",
+    8: "OR: X inhibiert Z, Y inhibiert Z"
+}
+plot_title = option_descriptions[option]
 plt.title(plot_title)
 plt.grid(True)
 
