@@ -4,21 +4,33 @@ import matplotlib.pyplot as plt
 
 
 def get_user_selection():
+    # Coherent AND
     print("Bitte wählen Sie eine der folgenden Optionen für die dZdt-Funktion:")
-    print("1: AND: X aktiviert Z, Y aktiviert Z")
-    print("2: AND: X inhibiert Z, Y aktiviert Z")
-    print("3: AND: X aktiviert Z, Y inhibiert Z")
-    print("4: AND: X inhibiert Z, Y inhibiert Z")
-    print("5: OR: X aktiviert Z, Y aktiviert Z")
-    print("6: OR: X inhibiert Z, Y aktiviert Z")
-    print("7: OR: X aktiviert Z, Y inhibiert Z")
-    print("8: OR: X inhibiert Z, Y inhibiert Z")
+    print("1: AND: X aktiviert Y, X aktiviert Z, Y aktiviert Z") # AAA
+    print("2: AND: X inhibiert Y, X inhibiert Z, Y aktiviert Z") # IIA
+    print("3: AND: X inhibiert Y, X aktiviert Z, Y inhibiert Z") # IAI
+    print("4: AND: X aktiviert Y, X inhibiert Z, Y inhibiert Z") # AII
+    # Incoherent AND
+    print("5: AND: X aktiviert Y, X aktiviert Z, Y inhibiert Z") # AAI
+    print("6: AND: X inhibiert Y, X inhibiert Z, Y inhibiert Z") # III
+    print("7: AND: X inhibiert Y, X aktiviert Z, Y aktiviert Z") # IAA
+    print("8: AND: X aktiviert Y, X inhibiert Z, Y aktiviert Z") # AIA
+    # Coherent OR
+    print("9: OR: X aktiviert Y, X aktiviert Z, Y aktiviert Z") # AAA
+    print("10: OR: X inhibiert Y, X inhibiert Z, Y aktiviert Z") # IIA
+    print("11: OR: X inhibiert Y, X aktiviert Z, Y inhibiert Z") # IAI
+    print("12: OR: X aktiviert Y, X inhibiert Z, Y inhibiert Z") # AII
+    # Incoherent OR
+    print("13: OR: X aktiviert Y, X aktiviert Z, Y inhibiert Z") # AAI
+    print("14: OR: X inhibiert Y, X inhibiert Z, Y inhibiert Z") # III
+    print("15: OR: X inhibiert Y, X aktiviert Z, Y aktiviert Z") # IAA
+    print("16: OR: X aktiviert Y, X inhibiert Z, Y aktiviert Z") # AIA
     while True:
-        user_input = input("Geben Sie die Nummer der gewünschten Option ein (1-8): ")
-        if 1 <= int(user_input) <= 8:
+        user_input = input("Geben Sie die Nummer der gewünschten Option ein (1-16): ")
+        if 1 <= int(user_input) <= 16:
             return int(user_input)
         else:
-            print("Ungültige Eingabe. Bitte wählen Sie eine Nummer zwischen 1 und 8.")
+            print("Ungültige Eingabe. Bitte wählen Sie eine Nummer zwischen 1 und 16.")
 
 option = get_user_selection()
 
@@ -66,36 +78,48 @@ def fc_rep(u, Ku, Kv, v, H):
 
 def dYdt(t, Y, X_star, Kxy, ay, By, by, H, Sx):
     X_star_effect = Sx * X_star  # Ein- und Ausschalten von Sx
-    return By + by * f_act(X_star_effect, Kxy, H) - ay * Y
+    if option == 1 or 4 or 5 or 8 or 9 or 12 or 13 or 16:
+        return By + by * f_act(X_star_effect, Kxy, H) - ay * Y
+    else:
+        return By + by * f_rep(X_star_effect, Kxy, H) - ay * Y
+    
 
 
 def dZdt(t, Z, X_star, Kxz, Y_star, Kyz, az, Bz, bz, H, Sx, option):
     X_star_effect = Sx * X_star  # Ein- und Ausschalten von Sx
     G_z = 0
+
     # AND: X activates Z, Y activates Z
-    if option == 1: 
+    if option == 1 or 7: 
         G_z = f_act(X_star_effect, Kxz, H) * f_act(X_star_effect, Kyz, H)
+
     # AND: X inhibits Z, Y activates Z
-    elif option == 2:
+    elif option == 2 or 8:
         G_z = f_rep(X_star_effect, Kxz, H) * f_act(X_star_effect, Kyz, H)
+
     # AND: X activates Z, Y inhibits Z
-    elif option == 3:
-        G_z_AND = f_act(X_star_effect, Kxz, H) * f_rep(X_star_effect, Kyz, H)
+    elif option == 3 or 5:
+        G_z = f_act(X_star_effect, Kxz, H) * f_rep(X_star_effect, Kyz, H)
+
     # AND: X inhibits Z. Y inhibits Z
-    elif option == 4:
-        G_z_AND = f_rep(X_star_effect, Kxz, H) * f_rep(X_star_effect, Kyz, H)
+    elif option == 4 or 6:
+        G_z = f_rep(X_star_effect, Kxz, H) * f_rep(X_star_effect, Kyz, H)
+
     # OR: X activates Z, Y activates Z    
-    elif option == 5:
-        G_z_OR = fc_act(X_star_effect, Kxz, Kyz, Y_star, H) + fc_act(Y_star, Kyz, Kxz, X_star_effect, H)
+    elif option == 9 or 15:
+        G_z = fc_act(X_star_effect, Kxz, Kyz, Y_star, H) + fc_act(Y_star, Kyz, Kxz, X_star_effect, H)
+
     # OR: X inhibits Z, Y activates Z
-    elif option == 6:
-        G_z_OR = fc_rep(X_star_effect, Kxz, Kyz, Y_star, H) + fc_act(Y_star, Kyz, Kxz, X_star_effect, H)
+    elif option == 10 or 16:
+        G_z = fc_rep(X_star_effect, Kxz, Kyz, Y_star, H) + fc_act(Y_star, Kyz, Kxz, X_star_effect, H)
+
     # OR: X activates Z, Y inhibits Z
-    elif option == 7:
-        G_z_OR = fc_act(X_star_effect, Kxz, Kyz, Y_star, H) + fc_rep(Y_star, Kyz, Kxz, X_star_effect, H)
+    elif option == 11 or 13:
+        G_z = fc_act(X_star_effect, Kxz, Kyz, Y_star, H) + fc_rep(Y_star, Kyz, Kxz, X_star_effect, H)
+
     # OR: X inhibits Z. Y inhibits Z
-    elif option == 8:
-       G_z_OR = fc_rep(X_star_effect, Kxz, Kyz, Y_star, H) + fc_rep(Y_star, Kyz, Kxz, X_star_effect, H)
+    elif option == 12 or 143:
+       G_z = fc_rep(X_star_effect, Kxz, Kyz, Y_star, H) + fc_rep(Y_star, Kyz, Kxz, X_star_effect, H)
 
     return Bz + bz * G_z - az * Z
 
@@ -179,14 +203,23 @@ plt.ylabel('Konzentration')
 plt.legend()
 
 option_descriptions = {
-    1: "AND: X aktiviert Z, Y aktiviert Z",
-    2: "AND: X inhibiert Z, Y aktiviert Z",
-    3: "AND: X aktiviert Z, Y inhibiert Z",
-    4: "AND: X inhibiert Z, Y inhibiert Z",
-    5: "OR: X aktiviert Z, Y aktiviert Z",
-    6: "OR: X inhibiert Z, Y aktiviert Z",
-    7: "OR: X aktiviert Z, Y inhibiert Z",
-    8: "OR: X inhibiert Z, Y inhibiert Z"
+    1: "AND: X aktiviert Y, X aktiviert Z, Y aktiviert Z",
+    2: "AND: X inhibiert Y, X inhibiert Z, Y aktiviert Z",
+    3: "AND: X inhibiert Y, X aktiviert Z, Y inhibiert Z",
+    4: "AND: X aktiviert Y, X inhibiert Z, Y inhibiert Z",
+    5: "AND: X aktiviert Y, X aktiviert Z, Y inhibiert Z",
+    6: "AND: X inhibiert Y, X inhibiert Z, Y inhibiert Z", # III
+    7: "AND: X inhibiert Y, X aktiviert Z, Y aktiviert Z", # IAA
+    8: "AND: X aktiviert Y, X inhibiert Z, Y aktiviert Z", # AIA
+
+    9: "OR: X aktiviert Y, X aktiviert Z, Y aktiviert Z", # AAA
+    10: "OR: X inhibiert Y, X inhibiert Z, Y aktiviert Z", # IIA
+    11: "OR: X inhibiert Y, X aktiviert Z, Y inhibiert Z", # IAI
+    12: "OR: X aktiviert Y, X inhibiert Z, Y inhibiert Z", # AII
+    13: "OR: X aktiviert Y, X aktiviert Z, Y inhibiert Z", # AAI
+    14: "OR: X inhibiert Y, X inhibiert Z, Y inhibiert Z", # III
+    15: "OR: X inhibiert Y, X aktiviert Z, Y aktiviert Z", # IAA
+    16: "OR: X aktiviert Y, X inhibiert Z, Y aktiviert Z", # AIA    
 }
 plot_title = option_descriptions[option]
 plt.title(plot_title)
@@ -195,5 +228,3 @@ plt.grid(True)
 plt.tight_layout()  # Verbessert die Anordnung der Subplots, damit sie nicht überlappen.
 
 plt.show()
-
-
