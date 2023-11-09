@@ -6,7 +6,8 @@ import pandas as pd
 
 # COHERENT TYPE 1
 print("--- --- COHERENT TYPE 1 --- ---")
-def CT_1_AND_System(k_xz, k_xy, k_yz, a_y, a_z, b_y, b_z, beta_y, beta_z, h, s_x, s_y, current_x, current_y, current_z):
+def CT_1_AND_System(t, variables, k_xz, k_xy, k_yz, a_y, a_z, b_y, b_z, beta_y, beta_z, h, s_x, s_y, current_x, current_y, current_z):
+    x,y,z = variables
     x = current_x * s_x
     y = current_y * s_y
     z = current_z
@@ -54,7 +55,7 @@ def CT_1_AND(b_y, b_z, k_xz, k_xy, k_yz, t_span, s_x, s_y):
             s_y_values.append(0)    # write s_y in list
 
         if t_step < 2:
-            model_solver = solve_ivp(CT_1_AND_System, (t, t + t_span / steps), initial_values, args=(k_xz, k_xy, k_yz, a_y, a_z, b_y, b_z, beta_y, beta_z, h, s_x_values[-1], s_y_values[-1], X0, Y0), t_eval=[t + t_span / steps])
+            model_solver = solve_ivp(CT_1_AND_System, (t, t + t_span / steps), initial_values, args=(k_xz, k_xy, k_yz, a_y, a_z, b_y, b_z, beta_y, beta_z, h, s_x_values[-1], s_y_values[-1], X0, Y0, Z0), t_eval=[t + t_span / steps])
         else:
             model_solver = solve_ivp(CT_1_AND_System, (t, t + t_span / steps), initial_values, args=(k_xz, k_xy, k_yz, a_y, a_z, b_y, b_z, beta_y, beta_z, h, s_x_values[-1], s_y_values[-1], x_values[-1], y_values[-1], z_values[-1]), t_eval=[t + t_span / steps])
 
