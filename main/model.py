@@ -88,10 +88,10 @@ def Regulation (u, k, h, activator):
         return (1 / (1 + (u / k) ** h))
 
 # function for competitive regulation, named f_c in paper
-def Competitive_Regulation (u, v, k_u, k_v, h, activator_u, activator_v):
+def Competitive_Regulation (u, v, k_u, k_v, h, activator):
 
     # Activator
-    if activator_u == True or activator_v == True:
+    if activator == True:
         return (((u / k_u) ** h) / (1 + (u / k_u) ** h + (v / k_v) ** h))
     # Repressor
     else:
@@ -104,7 +104,7 @@ def Gate(x, y, k_xz, k_yz, h, activator_xz, activator_yz):
         return Regulation(x, k_xz, h, activator_xz) * Regulation(y, k_yz, h, activator_yz)
     # OR mode
     elif(c_logicmode == "OR"):
-        return Competitive_Regulation(x, y, k_xz, k_yz, h, activator_xz, activator_yz) + Competitive_Regulation(y, x, k_yz, k_xz, h, activator_yz, activator_xz)
+        return Competitive_Regulation(x, y, k_xz, k_yz, h, activator_xz) + Competitive_Regulation(y, x, k_yz, k_xz, h, activator_yz)
 
 # function for time derivative of Y
 def ODE_Y (t, y, x_active, k_xy, a_y, b_y, beta_y, h, s_x, activator_xy):
@@ -120,7 +120,6 @@ def ODE_Z (t, z, y,  x_active, k_xz, k_yz, a_z, b_z, beta_z, h, s_x, activator_x
 def Model (t, init_vars, k_xy, k_xz, k_yz, a_y, b_y, beta_y, a_z, b_z, beta_z, h, s_x, s_y, activator_xz, activator_xy, activator_yz):
     x_active, y, z = init_vars
     x_active = s_x
-    y = s_y
 
     dxdt = 0                        # if X is constant, then change rate is 0
     dydt = ODE_Y(t, y, x_active, k_xy, a_y, b_y, beta_y, h, s_x, activator_xy)
@@ -128,29 +127,37 @@ def Model (t, init_vars, k_xy, k_xz, k_yz, a_y, b_y, beta_y, a_z, b_z, beta_z, h
 
     return [dxdt, dydt, dzdt]
 
+
 def CalculateType(s_x, s_y, t_start, t_end, activator_xz, activator_xy, activator_yz):
-    initial_values = [s_x, s_y, 0]
+
+    initial_values = [0, 0, 0]
+
+    x_active_values = []
+
+    y_values = []
+
+    z_values = []
+
+
+    s_x_values = []
+
+    s_y_values = []
 
     t_span = t_end - t_start
 
-    x_active_values = []
-    y_values = []
-    z_values = []
-
-    s_x_values = []
-    s_y_values = []
 
     t_values = np.linspace(0, 100, steps)
 
     for t_step in range(steps):
         t = (100 / steps) * t_step
 
-        if (t > t_start and t < t_end):
+        if (t >= t_start and t <= t_end):
             s_x_values.append(s_x)  # write s_x in list
             s_y_values.append(s_y)  # write s_y in list
         else:
             s_x_values.append(0)  # write s_x in list
             s_y_values.append(0)  # write s_y in list
+
 
         model_solver = solve_ivp(Model, (t, t + t_values[-1] / steps), initial_values, args=(k_xy, k_xz, k_yz, a_y, b_y, beta_y, a_z, b_z, beta_z, h, s_x_values[-1], s_y_values[-1], activator_xz, activator_xy, activator_yz), t_eval=[t + t_span / steps])
 
@@ -167,7 +174,6 @@ def CalculateType(s_x, s_y, t_start, t_end, activator_xz, activator_xy, activato
     return output_object
 
 # COHERENT TYPE 1
-
 CT1 = CalculateType(s_x = 1, s_y = 1, t_start = t_interval[0], t_end = t_interval[1], activator_xz = True, activator_xy = True, activator_yz =True)
 
 dframe_coherent_type_1 = pd.DataFrame({
@@ -185,7 +191,7 @@ dframe_coherent_type_1_sx = pd.DataFrame({
 
 # COHERENT TYPE 2
 
-CT2 = CalculateType(s_x = 1, s_y = 1, t_start = t_interval[0], t_end = t_interval[1], activator_xz = False, activator_xy = False, activator_yz = True)
+CT2 = CalculateType(s_x = 1, s_y = 0, t_start = t_interval[0], t_end = t_interval[1], activator_xz = False, activator_xy = False, activator_yz = True)
 
 dframe_coherent_type_2 = pd.DataFrame({
     'time': CT2[0],
@@ -202,7 +208,7 @@ dframe_coherent_type_2_sx = pd.DataFrame({
 
 # COHERENT TYPE 3
 
-CT3 = CalculateType(s_x = 0, s_y = 1, t_start = t_interval[0], t_end = t_interval[1], activator_xz = False, activator_xy = True, activator_yz = False)
+CT3 = CalculateType(s_x = 1, s_y = 0, t_start = t_interval[0], t_end = t_interval[1], activator_xz = False, activator_xy = True, activator_yz = False)
 
 dframe_coherent_type_3 = pd.DataFrame({
     'time': CT3[0],
