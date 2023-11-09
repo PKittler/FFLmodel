@@ -56,7 +56,7 @@ Sy = 0
 
 Kxy = 0.1 
 Kxz = 0.1 
-Kyz = 0.1
+Kyz = 1
 
 By = 0
 Bz = 0
@@ -112,7 +112,7 @@ def dZdt(t, Z, X_star, Kxz, Y_star, Kyz, az, Bz, bz, H, Sx, option):
         G_z = f_act(X_star_effect, Kxz, H) * f_act(X_star_effect, Kyz, H)
 
     # AND: X inhibits Z, Y activates Z
-    elif option == 2 or 8:
+    if option == 2 or 8:
         G_z = f_rep(X_star_effect, Kxz, H) * f_act(X_star_effect, Kyz, H)
 
     # AND: X activates Z, Y inhibits Z
