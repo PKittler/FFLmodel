@@ -40,9 +40,9 @@ st.sidebar.subheader("Parameters")
 
 c_logicmode = st.sidebar.radio("Coherent Logic Mode", ["AND", "OR"], horizontal=st.session_state.horizontal)
 
-k_xy = st.sidebar.slider("K_xy", min_value=0.01, max_value=1., value=1., step=0.01)   # activation / repression coefficient XY
-k_xz = st.sidebar.slider("K_xz", min_value=0.01, max_value=1., value=1., step=0.01)   # activation / repression coefficient XZ
-k_yz = st.sidebar.slider("K_yz", min_value=0.01, max_value=1., value=1., step=0.01)   # activation / repression coefficient YZ
+k_xy = st.sidebar.slider("K_xy", min_value=0.01, max_value=5., value=1., step=0.01)   # activation / repression coefficient XY
+k_xz = st.sidebar.slider("K_xz", min_value=0.01, max_value=5., value=1., step=0.01)   # activation / repression coefficient XZ
+k_yz = st.sidebar.slider("K_yz", min_value=0.01, max_value=5., value=1., step=0.01)   # activation / repression coefficient YZ
 
 a_y = st.sidebar.slider("a_y", min_value=0.01, max_value=1., value=1., step=0.01)
 a_z = st.sidebar.slider("a_z", min_value=0.01, max_value=1., value=1., step=0.01)
@@ -55,7 +55,7 @@ beta_z = st.sidebar.slider("beta_z", min_value=0., max_value=1., value=1., step=
 
 h = st.sidebar.slider("H", min_value=0, max_value=3, value=2)                       # exponent of Hill function
 
-t_interval = st.sidebar.slider("Inducer active time interval", 1.0, 100.0, (10., 15.))         # time endpoint
+t_interval = st.sidebar.slider("Inducer active time interval", 1.0, 20.0, 10.)         # time endpoint
 steps = st.sidebar.slider("steps", min_value=1, max_value=300, value=200)        # number of steps/points in calculation
 
 # function for control the visibility of graphs
@@ -70,88 +70,125 @@ def Plot_Control():
     if(show_z == True):
         output.append("c[Z]")
 
-    if(len(output) == 1):
-        reduced_output = output[0]
-        return reduced_output
-    else:
-        return output
+    return output
 
 # function for regulation, named f in paper
-def Regulation (u, k, h, activator):
+def Regulation_Activator (u, k, h):
+    return (((u / k)**h) / (1 + (u / k) ** h))
 
-    # ACTIVATOR
-    if activator == True:
-        return (((u / k)**h) / (1 + (u / k) ** h))
-
-    # REPRESSOR
-    else:
-        return (1 / (1 + (u / k) ** h))
+def Regulation_Repressor (u, k, h):
+    return (1 / (1 + (u / k) ** h))
 
 # function for competitive regulation, named f_c in paper
-def Competitive_Regulation (u, v, k_u, k_v, h, activator):
+def Competitive_Regulation_Activator(u, v, k_u, k_v, h):
+    return (((u / k_u) ** h) / (1 + (u / k_u) ** h + (v / k_v) ** h))
 
-    # Activator
-    if activator == True:
-        return (((u / k_u) ** h) / (1 + (u / k_u) ** h + (v / k_v) ** h))
-    # Repressor
-    else:
-        return (1/ (1 + (u / k_u) ** h + (v / k_v) ** h))
+def Competitive_Regulation_Repressor(u, v, k_u, k_v, h):
+    return (1/ (1 + (u / k_u) ** h + (v / k_v) ** h))
 
-def Gate(x, y, k_xz, k_yz, h, activator_xz, activator_yz):
+def C_Gate(x, y, k_xz, k_yz, h, activator_xz, activator_yz):
 
     # AND mode
     if(c_logicmode == "AND"):
-        return Regulation(x, k_xz, h, activator_xz) * Regulation(y, k_yz, h, activator_yz)
+        if activator_xz == True and activator_yz == True:
+            return Regulation_Activator(x, k_xz, h) * Regulation_Activator(y, k_yz, h)
+        if activator_xz == True and activator_yz == False:
+            return Regulation_Activator(x, k_xz, h) * Regulation_Repressor(y, k_yz, h)
+        if activator_xz == False and activator_yz == True:
+            return Regulation_Repressor(x, k_xz, h) * Regulation_Activator(y, k_yz, h)
+        if activator_xz == False and activator_yz == False:
+            return Regulation_Repressor(x, k_xz, h) * Regulation_Repressor(y, k_yz, h)
     # OR mode
     elif(c_logicmode == "OR"):
-        return Competitive_Regulation(x, y, k_xz, k_yz, h, activator_xz) + Competitive_Regulation(y, x, k_yz, k_xz, h, activator_yz)
+        if activator_xz == True and activator_yz == True:
+            return Competitive_Regulation_Activator(x, y, k_xz, k_yz, h) + Competitive_Regulation_Activator(y, x, k_yz, k_xz, h)
+        if activator_xz == True and activator_yz == False:
+            return Competitive_Regulation_Activator(x, y, k_xz, k_yz, h) + Competitive_Regulation_Repressor(y, x, k_yz, k_xz, h)
+        if activator_xz == False and activator_yz == True:
+            return Competitive_Regulation_Repressor(x, y, k_xz, k_yz, h) + Competitive_Regulation_Activator(y, x, k_yz, k_xz, h)
+        if activator_xz == False and activator_yz == False:
+            return Competitive_Regulation_Repressor(x, y, k_xz, k_yz, h) + Competitive_Regulation_Repressor(y, x, k_yz, k_xz, h)
+
+def I_Gate(x, y, k_xz, k_yz, h, activator_xz, activator_yz):
+    if activator_xz == True and activator_yz == True:
+        return Regulation_Activator(x, k_xz, h) * Regulation_Activator(y, k_yz, h)
+    if activator_xz == True and activator_yz == False:
+        return Regulation_Activator(x, k_xz, h) * Regulation_Repressor(y, k_yz, h)
+    if activator_xz == False and activator_yz == True:
+        return Regulation_Repressor(x, k_xz, h) * Regulation_Activator(y, k_yz, h)
+    if activator_xz == False and activator_yz == False:
+        return Regulation_Repressor(x, k_xz, h) * Regulation_Repressor(y, k_yz, h)
+
 
 # function for time derivative of Y
-def ODE_Y (t, y, x_active, k_xy, a_y, b_y, beta_y, h, s_x, activator_xy):
+def C_ODE_Y (t, y, x_active, k_xy, a_y, b_y, beta_y, h, s_x, activator):
     x = x_active             # switch for turn X on/off
-    return b_y + beta_y * Regulation(x, k_xy, h, activator_xy) - a_y * y
+
+    if activator == True:
+        return b_y + beta_y * Regulation_Activator(x, k_xy, h) - a_y * y
+    else:
+        return b_y + beta_y * Regulation_Repressor(x, k_xy, h) - a_y * y
 
 # function for time derivative of Z
-def ODE_Z (t, z, y,  x_active, k_xz, k_yz, a_z, b_z, beta_z, h, s_x, activator_xz, activator_yz):
-    x = s_x * x_active              # switch for turn X on/off
-    return b_z + beta_z * Gate(x, y, k_xz, k_yz, h, activator_xz, activator_yz) - a_z * z
+def C_ODE_Z (t, z, y,  x_active, k_xz, k_yz, a_z, b_z, beta_z, h, s_x, activator_xz, activator_yz):
+    x = x_active              # switch for turn X on/off
+    return b_z + beta_z * C_Gate(x, y, k_xz, k_yz, h, activator_xz, activator_yz) - a_z * z
+
+# function for time derivative of Y
+def I_ODE_Y (t, y, x_active, k_xy, a_y, b_y, beta_y, h, s_x, activator):
+    x = x_active             # switch for turn X on/off
+
+    if activator == True:
+        return b_y + beta_y * Regulation_Activator(x, k_xy, h) - a_y * y
+    else:
+        return b_y + beta_y * Regulation_Repressor(x, k_xy, h) - a_y * y
+
+# function for time derivative of Z
+def I_ODE_Z (t, z, y,  x_active, k_xz, k_yz, a_z, b_z, beta_z, h, s_x, activator_xz, activator_yz):
+    x = x_active              # switch for turn X on/off
+    return b_z + beta_z * I_Gate(x, y, k_xz, k_yz, h, activator_xz, activator_yz) - a_z * z
 
 # function for model to merge ODE_Y and ODE_Z to a ODE system
-def Model (t, init_vars, k_xy, k_xz, k_yz, a_y, b_y, beta_y, a_z, b_z, beta_z, h, s_x, s_y, activator_xz, activator_xy, activator_yz):
+def CT_Model (t, init_vars, k_xy, k_xz, k_yz, a_y, b_y, beta_y, a_z, b_z, beta_z, h, s_x, s_y, activator_xz, activator_xy, activator_yz):
     x_active, y, z = init_vars
     x_active = s_x
 
     dxdt = 0                        # if X is constant, then change rate is 0
-    dydt = ODE_Y(t, y, x_active, k_xy, a_y, b_y, beta_y, h, s_x, activator_xy)
-    dzdt = ODE_Z(t, z, y, x_active, k_xz, k_yz, a_z, b_z, beta_z, h, s_x, activator_xz, activator_yz)
+    dydt = C_ODE_Y(t, y, x_active, k_xy, a_y, b_y, beta_y, h, s_x, activator_xy)
+    dzdt = C_ODE_Z(t, z, y, x_active, k_xz, k_yz, a_z, b_z, beta_z, h, s_x, activator_xz, activator_yz)
+
+    return [dxdt, dydt, dzdt]
+
+def IT_Model (t, init_vars, k_xy, k_xz, k_yz, a_y, b_y, beta_y, a_z, b_z, beta_z, h, s_x, s_y, activator_xz, activator_xy, activator_yz):
+    x_active, y, z = init_vars
+    x_active = s_x
+
+    dxdt = 0                        # if X is constant, then change rate is 0
+    dydt = I_ODE_Y(t, y, x_active, k_xy, a_y, b_y, beta_y, h, s_x, activator_xy)
+    dzdt = I_ODE_Z(t, z, y, x_active, k_xz, k_yz, a_z, b_z, beta_z, h, s_x, activator_xz, activator_yz)
 
     return [dxdt, dydt, dzdt]
 
 
-def CalculateType(s_x, s_y, t_start, t_end, activator_xz, activator_xy, activator_yz):
+def CalculateCType(s_x, s_y, t_end, activator_xz, activator_xy, activator_yz):
 
     initial_values = [0, 0, 0]
 
     x_active_values = []
-
     y_values = []
-
     z_values = []
 
 
     s_x_values = []
-
     s_y_values = []
 
-    t_span = t_end - t_start
-
-
-    t_values = np.linspace(0, 100, steps)
+    t_span = t_end
+    t_values = np.linspace(0, 20, steps)
 
     for t_step in range(steps):
-        t = (100 / steps) * t_step
+        t = (20 / steps) * t_step
 
-        if (t >= t_start and t <= t_end):
+        if (t <= t_end):
             s_x_values.append(s_x)  # write s_x in list
             s_y_values.append(s_y)  # write s_y in list
         else:
@@ -159,7 +196,47 @@ def CalculateType(s_x, s_y, t_start, t_end, activator_xz, activator_xy, activato
             s_y_values.append(0)  # write s_y in list
 
 
-        model_solver = solve_ivp(Model, (t, t + t_values[-1] / steps), initial_values, args=(k_xy, k_xz, k_yz, a_y, b_y, beta_y, a_z, b_z, beta_z, h, s_x_values[-1], s_y_values[-1], activator_xz, activator_xy, activator_yz), t_eval=[t + t_span / steps])
+        model_solver = solve_ivp(CT_Model, (t, t + t_span / steps), initial_values, args=(k_xy, k_xz, k_yz, a_y, b_y, beta_y, a_z, b_z, beta_z, h, s_x_values[-1], s_y_values[-1], activator_xz, activator_xy, activator_yz), t_eval=[t + t_span / steps])
+
+        # update initial value (conditions)
+        initial_values = [model_solver.y[0][-1], model_solver.y[1][-1], model_solver.y[2][-1]]
+
+        x_active_values.append(model_solver.y[0][0])  # save only first value from last step
+        y_values.append(model_solver.y[1][0])  # save only first value from last step
+        z_values.append(model_solver.y[2][0])  # save only first value from last step
+
+    # pack the results in 1 output object
+    output_object = [t_values, x_active_values, y_values, z_values, s_x_values, s_y_values]
+
+    return output_object
+
+def CalculateIType(s_x, s_y, t_end, activator_xz, activator_xy, activator_yz):
+
+    initial_values = [0, 0, 0]
+
+    x_active_values = []
+    y_values = []
+    z_values = []
+
+
+    s_x_values = []
+    s_y_values = []
+
+    t_span = t_end
+    t_values = np.linspace(0, 20, steps)
+
+    for t_step in range(steps):
+        t = (20 / steps) * t_step
+
+        if (t <= t_end):
+            s_x_values.append(s_x)  # write s_x in list
+            s_y_values.append(s_y)  # write s_y in list
+        else:
+            s_x_values.append(0)  # write s_x in list
+            s_y_values.append(0)  # write s_y in list
+
+
+        model_solver = solve_ivp(IT_Model, (t, t + t_span / steps), initial_values, args=(k_xy, k_xz, k_yz, a_y, b_y, beta_y, a_z, b_z, beta_z, h, s_x_values[-1], s_y_values[-1], activator_xz, activator_xy, activator_yz), t_eval=[t + t_span / steps])
 
         # update initial value (conditions)
         initial_values = [model_solver.y[0][-1], model_solver.y[1][-1], model_solver.y[2][-1]]
@@ -174,7 +251,7 @@ def CalculateType(s_x, s_y, t_start, t_end, activator_xz, activator_xy, activato
     return output_object
 
 # COHERENT TYPE 1
-CT1 = CalculateType(s_x = 1, s_y = 1, t_start = t_interval[0], t_end = t_interval[1], activator_xz = True, activator_xy = True, activator_yz =True)
+CT1 = CalculateCType(s_x = 1, s_y = 1, t_end = t_interval, activator_xz = True, activator_xy = True, activator_yz =True)
 
 dframe_coherent_type_1 = pd.DataFrame({
     'time': CT1[0],
@@ -191,7 +268,7 @@ dframe_coherent_type_1_sx = pd.DataFrame({
 
 # COHERENT TYPE 2
 
-CT2 = CalculateType(s_x = 1, s_y = 0, t_start = t_interval[0], t_end = t_interval[1], activator_xz = False, activator_xy = False, activator_yz = True)
+CT2 = CalculateCType(s_x = 0, s_y = 1, t_end = t_interval, activator_xz = False, activator_xy = False, activator_yz = True)
 
 dframe_coherent_type_2 = pd.DataFrame({
     'time': CT2[0],
@@ -208,7 +285,7 @@ dframe_coherent_type_2_sx = pd.DataFrame({
 
 # COHERENT TYPE 3
 
-CT3 = CalculateType(s_x = 1, s_y = 0, t_start = t_interval[0], t_end = t_interval[1], activator_xz = False, activator_xy = True, activator_yz = False)
+CT3 = CalculateCType(s_x = 1, s_y = 1, t_end = t_interval, activator_xz = False, activator_xy = True, activator_yz = False)
 
 dframe_coherent_type_3 = pd.DataFrame({
     'time': CT3[0],
@@ -225,7 +302,7 @@ dframe_coherent_type_3_sx = pd.DataFrame({
 
 # COHERENT TYPE 4
 
-CT4 = CalculateType(s_x = 1, s_y = 1, t_start = t_interval[0], t_end = t_interval[1], activator_xz = True, activator_xy = False, activator_yz = False)
+CT4 = CalculateCType(s_x = 1, s_y = 1, t_end = t_interval, activator_xz = True, activator_xy = False, activator_yz = False)
 
 dframe_coherent_type_4 = pd.DataFrame({
     'time': CT4[0],
@@ -289,7 +366,7 @@ with tab_data:
 
 # INCOHERENT TYPE 1
 
-IT1 = CalculateType(s_x = 1, s_y = 1, t_start = t_interval[0], t_end = t_interval[1], activator_xz = True, activator_xy = True, activator_yz = False)
+IT1 = CalculateIType(s_x = 1, s_y = 1, t_end = t_interval, activator_xz = True, activator_xy = True, activator_yz = False)
 
 dframe_incoherent_type_1 = pd.DataFrame({
     'time': IT1[0],
@@ -306,7 +383,7 @@ dframe_incoherent_type_1_sx = pd.DataFrame({
 
 # INCOHERENT TYPE 2
 
-IT2 = CalculateType(s_x = 1, s_y = 1, t_start = t_interval[0], t_end = t_interval[1], activator_xz = False, activator_xy = False, activator_yz = False)
+IT2 = CalculateIType(s_x = 1, s_y = 1, t_end = t_interval, activator_xz = False, activator_xy = False, activator_yz = False)
 
 dframe_incoherent_type_2 = pd.DataFrame({
     'time': IT2[0],
@@ -323,7 +400,7 @@ dframe_incoherent_type_2_sx = pd.DataFrame({
 
 # INCOHERENT TYPE 3
 
-IT3 = CalculateType(s_x = 1, s_y = 1, t_start = t_interval[0], t_end = t_interval[1], activator_xz = False, activator_xy = True, activator_yz = True)
+IT3 = CalculateIType(s_x = 1, s_y = 1, t_end = t_interval, activator_xz = False, activator_xy = True, activator_yz = True)
 
 dframe_incoherent_type_3 = pd.DataFrame({
     'time': IT3[0],
@@ -340,7 +417,7 @@ dframe_incoherent_type_3_sx = pd.DataFrame({
 
 # INCOHERENT TYPE 4
 
-IT4 = CalculateType(s_x = 1, s_y = 1, t_start = t_interval[0], t_end = t_interval[1], activator_xz = True, activator_xy = False, activator_yz = True)
+IT4 = CalculateIType(s_x = 1, s_y = 1, t_end = t_interval, activator_xz = True, activator_xy = False, activator_yz = True)
 
 dframe_incoherent_type_4 = pd.DataFrame({
     'time': IT4[0],
