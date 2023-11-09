@@ -72,7 +72,7 @@ H = 2
 X = 1
 y0 = 1
 
-
+X_star=1
 Y0 = 0
 Z0 = 0
 
@@ -136,7 +136,7 @@ def dZdt(t, Z, X_star, Kxz, Y_star, Kyz, az, Bz, bz, H, Sx, option):
         G_z = fc_act(X_star_effect, Kxz, Kyz, Y_star, H) + fc_rep(Y_star, Kyz, Kxz, X_star_effect, H)
 
     # OR: X inhibits Z. Y inhibits Z
-    elif option == 12 or 143:
+    elif option == 12 or 14:
        G_z = fc_rep(X_star_effect, Kxz, Kyz, Y_star, H) + fc_rep(Y_star, Kyz, Kxz, X_star_effect, H)
 
     return Bz + bz * G_z - az * Z
@@ -173,6 +173,7 @@ Zeit_switch = [5, 10, 20]
 # 
 Initialwerte = [X_star, Y0, Z0]
 
+
 # Schleife über die Zeitschritte und Ergebniss berechnen
 for t_step in range(num_points):
     t = t_step * t_end / num_points
@@ -188,13 +189,15 @@ for t_step in range(num_points):
         (t, t + t_end / num_points),
         Initialwerte,
         args=(Kxy, Kxz, Kyz, ay, By, by, az, Bz, bz, H, Sx, option),
+        t_eval=[t + t_end / num_points],  # Nur den letzten Zeitschritt auswerten
     )
 
-Initialwerte = [sol.y[0][-1], sol.y[1][-1], sol.y[2][-1]]  # Aktualisieren der Anfangsbedingungen
+    Initialwerte = [sol.y[0][-1], sol.y[1][-1], sol.y[2][-1]]  # Aktualisieren der Anfangsbedingungen
 
-X_star_values.append(sol.y[0][0])  # Nur den ersten Wert aus dem letzten Zeitschritt speichern
-Y_values.append(sol.y[1][0])  # Nur den ersten Wert aus dem letzten Zeitschritt speichern
-Z_values.append(sol.y[2][0])  # Nur den ersten Wert aus dem letzten Zeitschritt speichern
+    X_star_values.append(sol.y[0][0])  # Nur den ersten Wert aus dem letzten Zeitschritt speichern
+    Y_values.append(sol.y[1][0])  # Nur den ersten Wert aus dem letzten Zeitschritt speichern
+    Z_values.append(sol.y[2][0])  # Nur den ersten Wert aus dem letzten Zeitschritt speichern
+
 
 
 
