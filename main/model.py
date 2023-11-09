@@ -47,8 +47,8 @@ k_yz = st.sidebar.slider("K_yz", min_value=0.01, max_value=5., value=1., step=0.
 a_y = st.sidebar.slider("a_y", min_value=0.01, max_value=1., value=1., step=0.01)
 a_z = st.sidebar.slider("a_z", min_value=0.01, max_value=1., value=1., step=0.01)
 
-b_y = st.sidebar.slider("B_x", min_value=0., max_value=10., value=0., step=0.1)     # basal concentration of Y
-b_z = st.sidebar.slider("B_y", min_value=0., max_value=10., value=0., step=0.1)     # basal concentration of Z
+b_y = st.sidebar.slider("B_y", min_value=0., max_value=10., value=0., step=0.1)     # basal concentration of Y
+b_z = st.sidebar.slider("B_z", min_value=0., max_value=10., value=0., step=0.1)     # basal concentration of Z
 
 beta_y = st.sidebar.slider("beta_y", min_value=0., max_value=1., value=1., step=0.01)
 beta_z = st.sidebar.slider("beta_z", min_value=0., max_value=1., value=1., step=0.01)
@@ -172,7 +172,7 @@ def IT_Model (t, init_vars, k_xy, k_xz, k_yz, a_y, b_y, beta_y, a_z, b_z, beta_z
 
 def CalculateCType(s_x, s_y, t_end, activator_xz, activator_xy, activator_yz):
 
-    initial_values = [0, 0, 0]
+    initial_values = [1, b_y, b_z]
 
     x_active_values = []
     y_values = []
@@ -212,7 +212,7 @@ def CalculateCType(s_x, s_y, t_end, activator_xz, activator_xy, activator_yz):
 
 def CalculateIType(s_x, s_y, t_end, activator_xz, activator_xy, activator_yz):
 
-    initial_values = [0, 0, 0]
+    initial_values = [1, b_y, b_z]
 
     x_active_values = []
     y_values = []
