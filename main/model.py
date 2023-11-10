@@ -14,21 +14,19 @@ from scipy.integrate import solve_ivp
 import streamlit as st
 import pandas as pd
 
-st.set_page_config(page_title="Modelling a feed-forward loop network motif", page_icon=None, layout="wide", initial_sidebar_state="auto", menu_items=None)
-st.title("Modelling a feed-forward loop network motif | M. Hirsch, P. Kittler")
+#st.set_page_config(page_title="Modelling a feed-forward loop network motif", page_icon=None, layout="wide", initial_sidebar_state="auto", menu_items=None)
+#st.title("Modelling a feed-forward loop network motif | M. Hirsch, P. Kittler")
 
 st.sidebar.write("Show graphs:")
 sb_showgraph_colx, sb_showgraph_coly, sb_showgraph_colz = st.sidebar.columns(3)
 with sb_showgraph_colx:
-    show_x_active = st.checkbox('X*', value=False)
+    show_x_active = st.checkbox('X*', value=True)
 with sb_showgraph_coly:
-    show_y = st.checkbox('Y', value=True)
+    show_y = st.checkbox('Y', value=False)
 with sb_showgraph_colz:
     show_z = st.checkbox('Z', value=True)
 
 if "visibility" not in st.session_state:
-    st.session_state.visibility = "visible"
-    st.session_state.disabled = False
     st.session_state.horizontal = True
 
 # parameters
@@ -38,14 +36,14 @@ z_0 = 0
 
 st.sidebar.subheader("Parameters")
 
-c_logicmode = st.sidebar.radio("Coherent Logic Mode", ["AND", "OR"], horizontal=st.session_state.horizontal)
+c_logicmode = st.sidebar.radio("Coherent Z Logic Mode", ["AND", "OR"], horizontal=st.session_state.horizontal)
 
-k_xy = st.sidebar.slider("K_xy", min_value=0.01, max_value=5., value=1., step=0.01)   # activation / repression coefficient XY
-k_xz = st.sidebar.slider("K_xz", min_value=0.01, max_value=5., value=1., step=0.01)   # activation / repression coefficient XZ
-k_yz = st.sidebar.slider("K_yz", min_value=0.01, max_value=5., value=1., step=0.01)   # activation / repression coefficient YZ
+k_xy = st.sidebar.slider("K_xy", min_value=0.01, max_value=5., value=0.1, step=0.01, key="kxy")   # activation / repression coefficient XY
+k_xz = st.sidebar.slider("K_xz", min_value=0.01, max_value=5., value=0.1, step=0.01)   # activation / repression coefficient XZ
+k_yz = st.sidebar.slider("K_yz", min_value=0.01, max_value=5., value=0.5, step=0.01)   # activation / repression coefficient YZ
 
-a_y = st.sidebar.slider("a_y", min_value=0.01, max_value=1., value=1., step=0.01)
-a_z = st.sidebar.slider("a_z", min_value=0.01, max_value=1., value=1., step=0.01)
+a_y = st.sidebar.slider("a_y", min_value=0.01, max_value=1., value=1., step=0.01)   # decay rate
+a_z = st.sidebar.slider("a_z", min_value=0.01, max_value=1., value=1., step=0.01)   # decay rate
 
 b_y = st.sidebar.slider("B_y", min_value=0., max_value=10., value=0., step=0.1)     # basal concentration of Y
 b_z = st.sidebar.slider("B_z", min_value=0., max_value=10., value=0., step=0.1)     # basal concentration of Z
@@ -325,7 +323,7 @@ with col_coherent_type_1:
     tab_plot, tab_data = st.tabs(["Plot", "Data"])
 
 with tab_plot:
-    st.line_chart(dframe_coherent_type_1_sx, x="time", y=["S_x", "S_y"])
+    st.line_chart(dframe_coherent_type_1_sx, x="time", y=["S_x", "S_y"], height=200)
     st.line_chart(dframe_coherent_type_1, x="time", y=Plot_Control())
 with tab_data:
     dframe_coherent_type_1
@@ -336,7 +334,7 @@ with col_coherent_type_2:
     tab_plot, tab_data = st.tabs(["Plot", "Data"])
 
 with tab_plot:
-    st.line_chart(dframe_coherent_type_2_sx, x="time", y=["S_x", "S_y"])
+    st.line_chart(dframe_coherent_type_2_sx, x="time", y=["S_x", "S_y"], height=200)
     st.line_chart(dframe_coherent_type_2, x="time", y=Plot_Control())
 with tab_data:
     dframe_coherent_type_2
@@ -347,7 +345,7 @@ with col_coherent_type_3:
     tab_plot, tab_data = st.tabs(["Plot", "Data"])
 
 with tab_plot:
-    st.line_chart(dframe_coherent_type_3_sx, x="time", y=["S_x", "S_y"])
+    st.line_chart(dframe_coherent_type_3_sx, x="time", y=["S_x", "S_y"], height=200)
     st.line_chart(dframe_coherent_type_3, x="time", y=Plot_Control())
 with tab_data:
     dframe_coherent_type_3
@@ -358,7 +356,7 @@ with col_coherent_type_4:
     tab_plot, tab_data = st.tabs(["Plot", "Data"])
 
 with tab_plot:
-    st.line_chart(dframe_coherent_type_4_sx, x="time", y=["S_x", "S_y"])
+    st.line_chart(dframe_coherent_type_4_sx, x="time", y=["S_x", "S_y"], height=200)
     st.line_chart(dframe_coherent_type_4, x="time", y=Plot_Control())
 with tab_data:
     dframe_coherent_type_4
@@ -442,7 +440,7 @@ with col_incoherent_type_1:
     tab_plot, tab_data = st.tabs(["Plot", "Data"])
 
 with tab_plot:
-    st.line_chart(dframe_incoherent_type_1_sx, x="time", y=["S_x", "S_y"])
+    st.line_chart(dframe_incoherent_type_1_sx, x="time", y=["S_x", "S_y"], height=200)
     st.line_chart(dframe_incoherent_type_1, x="time", y=Plot_Control())
 with tab_data:
     dframe_incoherent_type_1
@@ -453,7 +451,7 @@ with col_incoherent_type_2:
     tab_plot, tab_data = st.tabs(["Plot", "Data"])
 
 with tab_plot:
-    st.line_chart(dframe_incoherent_type_2_sx, x="time", y=["S_x", "S_y"])
+    st.line_chart(dframe_incoherent_type_2_sx, x="time", y=["S_x", "S_y"], height=200)
     st.line_chart(dframe_incoherent_type_2, x="time", y=Plot_Control())
 with tab_data:
     dframe_incoherent_type_2
@@ -464,7 +462,7 @@ with col_incoherent_type_3:
     tab_plot, tab_data = st.tabs(["Plot", "Data"])
 
 with tab_plot:
-    st.line_chart(dframe_incoherent_type_3_sx, x="time", y=["S_x", "S_y"])
+    st.line_chart(dframe_incoherent_type_3_sx, x="time", y=["S_x", "S_y"], height=200)
     st.line_chart(dframe_incoherent_type_3, x="time", y=Plot_Control())
 with tab_data:
     dframe_incoherent_type_3
@@ -475,7 +473,7 @@ with col_incoherent_type_4:
     tab_plot, tab_data = st.tabs(["Plot", "Data"])
 
 with tab_plot:
-    st.line_chart(dframe_incoherent_type_4_sx, x="time", y=["S_x", "S_y"])
+    st.line_chart(dframe_incoherent_type_4_sx, x="time", y=["S_x", "S_y"], height=200)
     st.line_chart(dframe_incoherent_type_4, x="time", y=Plot_Control())
 with tab_data:
     dframe_incoherent_type_4
